@@ -7,7 +7,7 @@ export default function Layout() {
             <Header />
             <Outlet />
             <ScrollRestoration />
-            <h2>이곳은 footer입니다.</h2>
+            <h2 className="border-2 text-center">형정이 이거 보고 힘내~~</h2>
         </>
     );
 }
