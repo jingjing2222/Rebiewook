@@ -1,13 +1,18 @@
 import Header from "@/layout/Header";
-import { Outlet, ScrollRestoration } from "react-router";
+import "@/main.css";
+import Footer from "@/layout/Footer";
+import { Outlet } from "react-router";
 
 export default function Layout() {
     return (
-        <>
-            <Header />
-            <Outlet />
-            <ScrollRestoration />
-            <h2 className="border-2 text-center">형정이 이거 보고 힘내~~</h2>
-        </>
+        <html lang="en">
+            <body className={`flex flex-col min-h-screen`}>
+                <Header />
+                <main className="flex-grow">
+                    <Outlet />
+                </main>
+                <Footer />
+            </body>
+        </html>
     );
 }
