@@ -20,9 +20,6 @@ export function BookDetails({
     coverImage,
     detailedReview,
 }: BookDetailsProps) {
-    console.log(
-        `${id}, ${title}, ${author}, ${description}, ${publishedDate}, ${coverImage}, ${detailedReview}}`
-    );
     return (
         <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row">
