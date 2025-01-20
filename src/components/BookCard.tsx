@@ -16,7 +16,7 @@ interface BookCardProps {
 export default function BookCard({ review }: BookCardProps) {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105">
-            <Link to={`/bookdetails/${review.id}`}>
+            <Link to={`/bookdetailes/${review.id}`}>
                 <div className="relative aspect-[2/3] w-full">
                     <img
                         src={review.coverImage || "/placeholder.svg"}
