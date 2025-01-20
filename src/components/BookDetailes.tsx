@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
+import { useCookies } from "react-cookie";
 
 export interface BookDetailsProps {
     id: number;
@@ -21,6 +22,7 @@ export function BookDetails({
     coverImage,
     detailedReview,
 }: BookDetailsProps) {
+    const [cookies] = useCookies(["username"]);
     return (
         <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row">
@@ -52,11 +54,16 @@ export function BookDetails({
                         >
                             목록
                         </Button>
-                        <Link to="edit">
-                            <Button className="flex-initial bg-[#8B4513] hover:bg-[#A0522D] text-white">
-                                수정
+                        <div className="flex-initial flex justify-end">
+                            <Link to="edit">
+                                <Button className="flex-initial bg-[#228B22] hover:bg-[#2E8B57] text-white mx-1">
+                                    수정
+                                </Button>
+                            </Link>
+                            <Button className="flex-initial bg-[#B22222] hover:bg-[#CD5C5C] text-white">
+                                삭제
                             </Button>
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>

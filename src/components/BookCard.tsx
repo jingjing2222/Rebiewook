@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { Link } from "react-router";
 
 interface BookReview {
@@ -32,7 +31,7 @@ export default function BookCard({ review }: BookCardProps) {
                         {review.description}
                     </p>
                     <p className="text-sm text-gray-500">
-                        {format(new Date(review.publishedDate), "MMMM d, yyyy")}
+                        {review.publishedDate}
                     </p>
                 </div>
             </Link>

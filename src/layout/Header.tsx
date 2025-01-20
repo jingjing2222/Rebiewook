@@ -9,10 +9,6 @@ export default function Header() {
     const [isAdmin, setIsAdmin] = useState(cookies.username);
     const [isHovered, setIsHovered] = useState(false);
 
-    const handleLogout = () => {
-        setIsAdmin(false);
-    };
-
     useEffect(() => {
         setIsAdmin(cookies.username);
     }, [cookies.username]);
@@ -34,7 +30,7 @@ export default function Header() {
                     <Button
                         onClick={() => {
                             removeCookie("username");
-                            handleLogout();
+                            setIsAdmin(false);
                         }}
                         className="bg-[#D2691E] hover:bg-[#A0522D] text-white"
                     >

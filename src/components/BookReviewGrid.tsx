@@ -1,49 +1,32 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
+import { supabase } from "@/supabase/Client";
+import camelcaseKeys from "camelcase-keys";
 
-const bookReviews = [
-    {
-        id: 1,
-        title: "The Midnight Library",
-        description: "A novel about regret, hope, and transformation",
-        publishedDate: "2023-05-15",
-        coverImage:
-            "/placeholder.svg?height=300&width=200&text=The+Midnight+Library",
-    },
-    {
-        id: 2,
-        title: "Atomic Habits",
-        description: "Tiny changes, remarkable results",
-        publishedDate: "2023-05-10",
-        coverImage: "/placeholder.svg?height=300&width=200&text=Atomic+Habits",
-    },
-    {
-        id: 3,
-        title: "Project Hail Mary",
-        description: "A lone astronaut must save humanity",
-        publishedDate: "2023-05-05",
-        coverImage:
-            "/placeholder.svg?height=300&width=200&text=Project+Hail+Mary",
-    },
-    {
-        id: 4,
-        title: "The Four Winds",
-        description: "A portrait of America during the Great Depression",
-        publishedDate: "2023-04-30",
-        coverImage: "/placeholder.svg?height=300&width=200&text=The+Four+Winds",
-    },
-    {
-        id: 5,
-        title: "Klara and the Sun",
-        description: "An exploration of what it means to love",
-        publishedDate: "2023-04-25",
-        coverImage:
-            "/placeholder.svg?height=300&width=200&text=Klara+and+the+Sun",
-    },
-];
+export interface BookDetailsProps {
+    id: number;
+    title: string;
+    author: string;
+    description: string;
+    publishedDate: string;
+    coverImage: string;
+    detailedReview: string;
+}
 
 export default function BookReviewGrid() {
-    const [reviews] = useState(bookReviews);
+    const [reviews, setReviews] = useState<BookDetailsProps[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            const { data: book, error } = await supabase
+                .from("book")
+                .select("*")
+                .returns<BookDetailsProps[]>(); // 명확한 타입 지정
+            console.log(camelcaseKeys(book));
+            setReviews(camelcaseKeys(book));
+        })();
+    }, []);
 
     return (
         <div className="bookshelf">
