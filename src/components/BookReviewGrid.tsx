@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 import { supabase } from "@/supabase/Client";
@@ -21,10 +20,16 @@ export default function BookReviewGrid() {
         (async () => {
             const { data: book, error } = await supabase
                 .from("book")
-                .select("*")
-                .returns<BookDetailsProps[]>(); // 명확한 타입 지정
-            console.log(camelcaseKeys(book));
-            setReviews(camelcaseKeys(book));
+                .select("*");
+
+            if (error || !book) {
+                console.error(error);
+                return;
+            }
+
+            const camelCasedBook = camelcaseKeys(book);
+            console.log(camelCasedBook);
+            setReviews(camelCasedBook);
         })();
     }, []);
 

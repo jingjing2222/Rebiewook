@@ -1,4 +1,4 @@
-import BookSearch from "@/components/BookSearch";
+// import { BookSearch } from "@/components/BookSearch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function EditForm() {
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
-            <BookSearch />
+            {/* <BookSearch /> */}
             <form className="space-y-6">
                 <div>
                     <Label htmlFor="title">Book Title</Label>

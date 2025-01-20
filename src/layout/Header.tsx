@@ -29,7 +29,7 @@ export default function Header() {
                 {isAdmin ? (
                     <Button
                         onClick={() => {
-                            removeCookie("username");
+                            removeCookie("username", { path: "/" });
                             setIsAdmin(false);
                         }}
                         className="bg-[#D2691E] hover:bg-[#A0522D] text-white"

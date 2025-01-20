@@ -54,16 +54,18 @@ export function BookDetails({
                         >
                             목록
                         </Button>
-                        <div className="flex-initial flex justify-end">
-                            <Link to="edit">
-                                <Button className="flex-initial bg-[#228B22] hover:bg-[#2E8B57] text-white mx-1">
-                                    수정
+                        {cookies.username && (
+                            <div className="flex-initial flex justify-end">
+                                <Link to="edit">
+                                    <Button className="flex-initial bg-[#228B22] hover:bg-[#2E8B57] text-white mx-1">
+                                        수정
+                                    </Button>
+                                </Link>
+                                <Button className="flex-initial bg-[#B22222] hover:bg-[#CD5C5C] text-white">
+                                    삭제
                                 </Button>
-                            </Link>
-                            <Button className="flex-initial bg-[#B22222] hover:bg-[#CD5C5C] text-white">
-                                삭제
-                            </Button>
-                        </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
