@@ -12,6 +12,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
 
 interface UserInform {
     username: string;
@@ -25,6 +26,7 @@ export default function LoginModal() {
         password: "",
     });
     const { register, handleSubmit } = useForm<UserInform>();
+    const [cookies, setCookie] = useCookies<string>(["username"]); // 쿠키 훅
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,7 +78,16 @@ export default function LoginModal() {
                     <Button
                         type="submit"
                         className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
-                        onClick={handleSubmit((data) => setUserInform(data))}
+                        onClick={handleSubmit(
+                            (data: { username: string; password: string }) =>
+                                setUserInform(() => {
+                                    setCookie("username", data.username, {
+                                        path: "/",
+                                    }); // 쿠키에 토큰 저장
+                                    setIsOpen(false);
+                                    return data;
+                                })
+                        )}
                     >
                         Login
                     </Button>

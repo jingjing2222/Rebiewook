@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import LoginModal from "@/components/LoginModal";
+import { useCookies } from "react-cookie";
 
 export default function Header() {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [cookies, , removeCookie] = useCookies(["username"]);
+    const [isAdmin, setIsAdmin] = useState(cookies.username);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleLogout = () => {
         setIsAdmin(false);
     };
+
+    useEffect(() => {
+        setIsAdmin(cookies.username);
+    }, [cookies.username]);
 
     return (
         <header className="bg-[#8B4513] shadow-md wood-texture">
@@ -41,7 +47,10 @@ export default function Header() {
                     )}
                     {isAdmin ? (
                         <Button
-                            onClick={handleLogout}
+                            onClick={() => {
+                                removeCookie("username");
+                                handleLogout();
+                            }}
                             className="bg-[#D2691E] hover:bg-[#A0522D] text-white"
                         >
                             Logout
