@@ -17,6 +17,36 @@ export default function Header() {
         setIsAdmin(cookies.username);
     }, [cookies.username]);
 
+    const ValidateAdmin = () => {
+        return (
+            <>
+                {isAdmin && (
+                    <Link to="/upload">
+                        <Button
+                            variant="ghost"
+                            className="text-white hover:text-[#F4A460]"
+                        >
+                            Upload Review
+                        </Button>
+                    </Link>
+                )}
+                {isAdmin ? (
+                    <Button
+                        onClick={() => {
+                            removeCookie("username");
+                            handleLogout();
+                        }}
+                        className="bg-[#D2691E] hover:bg-[#A0522D] text-white"
+                    >
+                        Logout
+                    </Button>
+                ) : (
+                    <LoginModal />
+                )}
+            </>
+        );
+    };
+
     return (
         <header className="bg-[#8B4513] shadow-md wood-texture">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -35,29 +65,7 @@ export default function Header() {
                 </Link>
                 <h2 className="text-3xl">나는 생각한다, 나는 존재한다</h2>
                 <nav className="flex items-center space-x-4">
-                    {isAdmin && (
-                        <Link to="/upload">
-                            <Button
-                                variant="ghost"
-                                className="text-white hover:text-[#F4A460]"
-                            >
-                                Upload Review
-                            </Button>
-                        </Link>
-                    )}
-                    {isAdmin ? (
-                        <Button
-                            onClick={() => {
-                                removeCookie("username");
-                                handleLogout();
-                            }}
-                            className="bg-[#D2691E] hover:bg-[#A0522D] text-white"
-                        >
-                            Logout
-                        </Button>
-                    ) : (
-                        <LoginModal />
-                    )}
+                    {<ValidateAdmin />}
                 </nav>
             </div>
         </header>

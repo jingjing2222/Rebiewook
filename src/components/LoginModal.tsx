@@ -26,7 +26,7 @@ export default function LoginModal() {
         password: "",
     });
     const { register, handleSubmit } = useForm<UserInform>();
-    const [cookies, setCookie] = useCookies<string>(["username"]); // 쿠키 훅
+    const [, setCookie] = useCookies<string>(["username"]); // 쿠키 훅
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();

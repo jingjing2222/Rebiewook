@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 
 export interface BookDetailsProps {
     id: number;
@@ -44,12 +45,19 @@ export function BookDetails({
                         Detailed Review
                     </h3>
                     <p className="mb-6 text-[#8B4513]">{detailedReview}</p>
-                    <Button
-                        onClick={() => window.history.back()}
-                        className="bg-[#8B4513] hover:bg-[#A0522D] text-white"
-                    >
-                        Back to List
-                    </Button>
+                    <div className="flex justify-between">
+                        <Button
+                            onClick={() => window.history.back()}
+                            className="flex-initial bg-[#8B4513] hover:bg-[#A0522D] text-white"
+                        >
+                            목록
+                        </Button>
+                        <Link to="edit">
+                            <Button className="flex-initial bg-[#8B4513] hover:bg-[#A0522D] text-white">
+                                수정
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
