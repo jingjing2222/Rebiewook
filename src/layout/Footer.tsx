@@ -10,10 +10,7 @@ export default function Footer() {
                         </p>
                     </div>
                     <div className="w-full md:w-1/3 text-center md:text-right">
-                        <p>
-                            &copy; 2023 My Personal Book Report. All rights
-                            reserved.
-                        </p>
+                        <p>&copy; 2025 jingjing2222. All rights reserved.</p>
                     </div>
                 </div>
             </div>
