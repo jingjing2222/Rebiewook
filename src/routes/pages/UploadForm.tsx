@@ -8,11 +8,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function UploadForm() {
-    const [selectedBook, setSelectedBook] = useState({
-        title: "",
-        thumbnail: "",
-        authors: [""],
-    });
+    const [selectedBook, setSelectedBook] = useState({});
 
     const { register, handleSubmit, setValue } = useForm();
 

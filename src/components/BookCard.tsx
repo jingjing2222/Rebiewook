@@ -1,18 +1,7 @@
 import { Link } from "react-router";
 
-interface BookReview {
-    id: number;
-    title: string;
-    description: string;
-    publishedDate: string;
-    coverImage: string;
-}
 
-interface BookCardProps {
-    review: BookReview;
-}
-
-export default function BookCard({ review }: BookCardProps) {
+export default function BookCard({ review }) {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105">
             <Link to={`/bookdetailes/${review.id}`}>

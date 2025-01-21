@@ -1,18 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import SearchedBooks from "@/components/SearchedBooks";
 
-export interface SearchedBook {
-    documents: object | undefined;
-    meta: object | undefined;
-}
-
-export function BookSearch({ setSelectedBook }) {
-    const inputTitle = useRef(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [searchedBooks, setSearchedBooks] = useState<SearchedBook[]>([]);
+export const BookSearch = ({ setSelectedBook }) => {
+    const inputTitle = useRef("");
+    const [loading, setLoading] = useState(false);
+    const [searchedBooks, setSearchedBooks] = useState([]);
 
     const fetchBooks = async (books: string) => {
         setLoading(true);
@@ -51,8 +45,8 @@ export function BookSearch({ setSelectedBook }) {
             </div>
             {!loading ? (
                 <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {searchedBooks?.documents?.length > 0 ? (
-                        searchedBooks.documents.map((book, index) => (
+                    {searchedBooks?.documents.length > 0 ? (
+                        searchedBooks?.documents.map((book, index) => (
                             <SearchedBooks
                                 book={book}
                                 setSelectedBook={setSelectedBook}
@@ -68,4 +62,4 @@ export function BookSearch({ setSelectedBook }) {
             )}
         </div>
     );
-}
+};

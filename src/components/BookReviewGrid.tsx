@@ -3,18 +3,8 @@ import BookCard from "./BookCard";
 import { supabase } from "@/supabase/Client";
 import camelcaseKeys from "camelcase-keys";
 
-export interface BookDetailsProps {
-    id: number;
-    title: string;
-    author: string;
-    description: string;
-    publishedDate: string;
-    coverImage: string;
-    detailedReview: string;
-}
-
 export default function BookReviewGrid() {
-    const [reviews, setReviews] = useState<BookDetailsProps[]>([]);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         (async () => {

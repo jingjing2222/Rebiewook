@@ -3,15 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useCookies } from "react-cookie";
 
-export interface BookDetailsProps {
-    id: number;
-    title: string;
-    author: string;
-    description: string;
-    publishedDate: string;
-    coverImage: string;
-    detailedReview: string;
-}
 
 export function BookDetails({
     id,
@@ -21,7 +12,7 @@ export function BookDetails({
     publishedDate,
     coverImage,
     detailedReview,
-}: BookDetailsProps) {
+}) {
     const [cookies] = useCookies(["username"]);
     return (
         <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">

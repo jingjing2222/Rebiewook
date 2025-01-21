@@ -1,12 +1,12 @@
-import { BookDetailsProps, BookDetails } from "@/components/BookDetailes";
+import { BookDetails } from "@/components/BookDetailes";
 import { supabase } from "@/supabase/Client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import camelcaseKeys from "camelcase-keys";
 
 export default function BookDetailsPage() {
-    const { id } = useParams<{ id: string }>();
-    const [book, setBook] = useState<BookDetailsProps | undefined>();
+    const { id } = useParams();
+    const [book, setBook] = useState();
 
     useEffect(() => {
         (async () => {

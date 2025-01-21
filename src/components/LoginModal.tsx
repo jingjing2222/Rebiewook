@@ -14,21 +14,16 @@ import {
 import { useForm } from "react-hook-form";
 import { useCookies } from "react-cookie";
 
-interface UserInform {
-    username: string;
-    password: string;
-}
-
 export default function LoginModal() {
     const [isOpen, setIsOpen] = useState(false);
-    const [userInform, setUserInform] = useState<UserInform>({
+    const [userInform, setUserInform] = useState({
         username: "",
         password: "",
     });
-    const { register, handleSubmit } = useForm<UserInform>();
-    const [, setCookie] = useCookies<string>(["username"]); // 쿠키 훅
+    const { register, handleSubmit } = useForm();
+    const [, setCookie] = useCookies(["username"]); // 쿠키 훅
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         console.log(
             "Login attempted with:",
@@ -78,15 +73,14 @@ export default function LoginModal() {
                     <Button
                         type="submit"
                         className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
-                        onClick={handleSubmit(
-                            (data: { username: string; password: string }) =>
-                                setUserInform(() => {
-                                    setCookie("username", data.username, {
-                                        path: "/",
-                                    }); // 쿠키에 토큰 저장
-                                    setIsOpen(false);
-                                    return data;
-                                })
+                        onClick={handleSubmit((data) =>
+                            setUserInform(() => {
+                                setCookie("username", data.username, {
+                                    path: "/",
+                                }); // 쿠키에 토큰 저장
+                                setIsOpen(false);
+                                return data;
+                            })
                         )}
                     >
                         Login
