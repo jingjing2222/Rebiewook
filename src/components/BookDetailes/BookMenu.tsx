@@ -1,0 +1,27 @@
+import DeleteModal from "@/components/Modal/DeleteModal";
+import { Button } from "@/components/ui/button";
+import { useCookies } from "react-cookie";
+import { Link } from "react-router";
+
+export const BookMenu = () => {
+    const [cookies] = useCookies(["username"]);
+
+    return (
+        <>
+            <Button
+                onClick={() => window.history.back()}
+                className="flex-initial bg-[#8B4513] hover:bg-[#A0522D] text-white"
+            >
+                목록
+            </Button>
+            {cookies.username && (
+                <div className="flex-initial flex justify-end">
+                    <Link to="edit">
+                        <Button>수정</Button>
+                    </Link>
+                    <DeleteModal />
+                </div>
+            )}
+        </>
+    );
+};

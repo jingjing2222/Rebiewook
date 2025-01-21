@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
-import LoginModal from "@/components/LoginModal";
 import { useCookies } from "react-cookie";
+import { LoginModal } from "@/components/Modal/LoginModal";
 
 export default function Header() {
     const [cookies, , removeCookie] = useCookies(["username"]);
