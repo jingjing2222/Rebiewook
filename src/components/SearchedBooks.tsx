@@ -1,15 +1,10 @@
-import { SearchedBook } from "@/types/Type";
-import { SetStateAction } from "react";
+import { SearchedBookComponent } from "@/types/Type";
 
 export default function SearchedBooks({
     setSelectedBook,
     book,
     index,
-}: {
-    setSelectedBook: React.Dispatch<SetStateAction<SearchedBook | undefined>>;
-    book: SearchedBook;
-    index: number;
-}) {
+}: SearchedBookComponent) {
     return (
         <li
             className="mb-4 last:mb-0"

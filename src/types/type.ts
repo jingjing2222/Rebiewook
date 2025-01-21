@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 export interface Review {
     author: string;
     coverImage: string;
@@ -35,4 +37,10 @@ export interface SearchedBook {
 export interface UserInform {
     username: string;
     password: string;
+}
+
+export interface SearchedBookComponent {
+    setSelectedBook: React.Dispatch<SetStateAction<SearchedBook | undefined>>;
+    book: SearchedBook;
+    index: number;
 }
