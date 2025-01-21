@@ -1,12 +1,17 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { SetStateAction, useRef, useState } from "react";
 import SearchedBooks from "@/components/SearchedBooks";
+import { SearchedBook } from "@/types/Type";
 
-export const BookSearch = ({ setSelectedBook }) => {
+export const BookSearch = ({
+    setSelectedBook,
+}: {
+    setSelectedBook: React.Dispatch<SetStateAction<SearchedBook | undefined>>;
+}) => {
     const inputTitle = useRef("");
-    const [loading, setLoading] = useState(false);
-    const [searchedBooks, setSearchedBooks] = useState([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [searchedBooks, setSearchedBooks] = useState<SearchedBook[]>([]);
 
     const fetchBooks = async (books: string) => {
         setLoading(true);
@@ -24,8 +29,8 @@ export const BookSearch = ({ setSelectedBook }) => {
         }
 
         const data = await response.json();
-        console.log(data);
-        setSearchedBooks(data);
+        console.log(data.documents);
+        setSearchedBooks(data.documents);
         setLoading(false);
         return data;
     };
@@ -45,14 +50,16 @@ export const BookSearch = ({ setSelectedBook }) => {
             </div>
             {!loading ? (
                 <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {searchedBooks?.documents.length > 0 ? (
-                        searchedBooks?.documents.map((book, index) => (
-                            <SearchedBooks
-                                book={book}
-                                setSelectedBook={setSelectedBook}
-                                index={index}
-                            />
-                        ))
+                    {searchedBooks.length > 0 ? (
+                        searchedBooks.map(
+                            (book: SearchedBook, index: number) => (
+                                <SearchedBooks
+                                    book={book}
+                                    setSelectedBook={setSelectedBook}
+                                    index={index}
+                                />
+                            )
+                        )
                     ) : (
                         <li>책 정보 없음</li>
                     )}

@@ -1,7 +1,7 @@
+import { Review } from "@/types/Type";
 import { Link } from "react-router";
 
-
-export default function BookCard({ review }) {
+export const BookCard = ({ review }: { review: Review }) => {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105">
             <Link to={`/bookdetailes/${review.id}`}>
@@ -26,4 +26,4 @@ export default function BookCard({ review }) {
             </Link>
         </div>
     );
-}
+};

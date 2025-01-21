@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,17 +11,18 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { useCookies } from "react-cookie";
+import { UserInform } from "@/types/Type";
 
 export default function LoginModal() {
     const [isOpen, setIsOpen] = useState(false);
-    const [userInform, setUserInform] = useState({
+    const [userInform, setUserInform] = useState<UserInform>({
         username: "",
         password: "",
     });
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm<UserInform>();
     const [, setCookie] = useCookies(["username"]); // 쿠키 훅
 
-    const handleLogin = (e) => {
+    const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(
             "Login attempted with:",
@@ -73,15 +72,15 @@ export default function LoginModal() {
                     <Button
                         type="submit"
                         className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
-                        onClick={handleSubmit((data) =>
+                        onClick={handleSubmit((data: UserInform) => {
                             setUserInform(() => {
                                 setCookie("username", data.username, {
                                     path: "/",
                                 }); // 쿠키에 토큰 저장
                                 setIsOpen(false);
                                 return data;
-                            })
-                        )}
+                            });
+                        })}
                     >
                         Login
                     </Button>

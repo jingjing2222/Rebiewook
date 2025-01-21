@@ -4,13 +4,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/supabase/Client";
+import { DBBook, SearchedBook } from "@/types/Type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function UploadForm() {
-    const [selectedBook, setSelectedBook] = useState({});
+    const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
+        undefined
+    );
 
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue } = useForm<DBBook>();
 
     useEffect(() => {
         if (selectedBook) {
@@ -20,7 +23,7 @@ export default function UploadForm() {
         }
     }, [selectedBook, setValue]);
 
-    async function updateBook(book) {
+    async function updateBook(book: DBBook) {
         const { data, error } = await supabase
             .from("book")
             .insert(book)

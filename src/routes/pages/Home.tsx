@@ -1,4 +1,4 @@
-import BookReviewGrid from "@/components/BookReviewGrid";
+import { BookReviewGrid } from "@/components/BookReviewGrid";
 
 export default function Home() {
     return (

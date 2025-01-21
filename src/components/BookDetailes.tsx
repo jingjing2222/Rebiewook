@@ -2,17 +2,16 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useCookies } from "react-cookie";
-
+import { Review } from "@/types/Type";
 
 export function BookDetails({
-    id,
     title,
     author,
     description,
     publishedDate,
     coverImage,
     detailedReview,
-}) {
+}: Review) {
     const [cookies] = useCookies(["username"]);
     return (
         <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">

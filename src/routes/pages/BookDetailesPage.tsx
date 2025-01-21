@@ -3,10 +3,11 @@ import { supabase } from "@/supabase/Client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import camelcaseKeys from "camelcase-keys";
+import { Review } from "@/types/Type";
 
 export default function BookDetailsPage() {
-    const { id } = useParams();
-    const [book, setBook] = useState();
+    const { id } = useParams<string>();
+    const [book, setBook] = useState<Review>();
 
     useEffect(() => {
         (async () => {
@@ -24,7 +25,7 @@ export default function BookDetailsPage() {
             const camelBook = camelcaseKeys(specificBook);
             setBook(camelBook);
         })();
-    }, []);
+    }, [id]);
 
     if (!book) {
         return <div>Book not found</div>;

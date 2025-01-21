@@ -1,4 +1,15 @@
-export default function SearchedBooks({ setSelectedBook, book, index }) {
+import { SearchedBook } from "@/types/Type";
+import { SetStateAction } from "react";
+
+export default function SearchedBooks({
+    setSelectedBook,
+    book,
+    index,
+}: {
+    setSelectedBook: React.Dispatch<SetStateAction<SearchedBook | undefined>>;
+    book: SearchedBook;
+    index: number;
+}) {
     return (
         <li
             className="mb-4 last:mb-0"
@@ -26,11 +37,6 @@ export default function SearchedBooks({ setSelectedBook, book, index }) {
                     {book.authors && book.authors.length > 0 && (
                         <p className="text-[#A0522D] text-sm mb-2">
                             by {book.authors[0]}
-                        </p>
-                    )}
-                    {book.description && (
-                        <p className="text-[#8B4513] text-sm line-clamp-2">
-                            {book.description}
                         </p>
                     )}
                 </div>
