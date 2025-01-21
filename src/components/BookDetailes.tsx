@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useCookies } from "react-cookie";
 import { Review } from "@/types/Type";
+import { Buttons } from "@/components/Buttons";
 
 export function BookDetails({
     title,
@@ -47,13 +48,19 @@ export function BookDetails({
                         {cookies.username && (
                             <div className="flex-initial flex justify-end">
                                 <Link to="edit">
-                                    <Button className="flex-initial bg-[#228B22] hover:bg-[#2E8B57] text-white mx-1">
-                                        수정
-                                    </Button>
+                                    <Buttons
+                                        classForTailwind={
+                                            "flex-initial bg-[#228B22] hover:bg-[#2E8B57] text-white mx-1"
+                                        }
+                                        text={"수정"}
+                                    />
                                 </Link>
-                                <Button className="flex-initial bg-[#B22222] hover:bg-[#CD5C5C] text-white">
-                                    삭제
-                                </Button>
+                                <Buttons
+                                    classForTailwind={
+                                        "flex-initial bg-[#B22222] hover:bg-[#CD5C5C] text-white"
+                                    }
+                                    text={"삭제"}
+                                />
                             </div>
                         )}
                     </div>
