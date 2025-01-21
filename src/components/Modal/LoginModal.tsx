@@ -1,10 +1,14 @@
 import BaseModal from "@/components/Modal/BaseModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { UserInform } from "@/types/Type";
 import { Label } from "@radix-ui/react-label";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
+
+interface UserInform {
+    username: string;
+    password: string;
+}
 
 export const LoginModal = () => {
     const { register, handleSubmit } = useForm<UserInform>();

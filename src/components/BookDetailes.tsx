@@ -1,7 +1,16 @@
-import { Review } from "@/types/Type";
 import { BookCover } from "@/components/BookDetailes/BookCover";
 import { BookDescription } from "@/components/BookDetailes/BookDescription";
 import { BookMenu } from "@/components/BookDetailes/BookMenu";
+
+interface Review {
+    author: string;
+    coverImage: string;
+    description: string;
+    detailedReview: string;
+    id: number;
+    publishedDate: string;
+    title: string;
+}
 
 export function BookDetails({
     title,

@@ -4,9 +4,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/supabase/Client";
-import { DBBook, SearchedBook } from "@/types/Type";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
+interface SearchedBook {
+    authors: string[];
+    contents: string;
+    datetime: string;
+    isbn: string;
+    price: number;
+    publisher: string;
+    sale_price: number;
+    status: string;
+    thumbnail: string;
+    title: string;
+    translators: string[];
+    url: string;
+}
+
+export interface DBBook {
+    author: string;
+    cover_image: string;
+    description: string;
+    detailed_review: string;
+    published_date: string;
+    title: string;
+}
 
 export default function UploadForm() {
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
@@ -37,7 +60,11 @@ export default function UploadForm() {
 
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
-            <BookSearch setSelectedBook={setSelectedBook} />
+            <BookSearch
+                onClick={(book) => {
+                    setSelectedBook(book);
+                }}
+            />
             <form className="space-y-6" onSubmit={handleSubmit(updateBook)}>
                 <div>
                     <Label htmlFor="title">제목</Label>

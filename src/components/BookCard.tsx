@@ -1,5 +1,14 @@
-import { Review } from "@/types/Type";
 import { Link } from "react-router";
+
+interface Review {
+    author: string;
+    coverImage: string;
+    description: string;
+    detailedReview: string;
+    id: number;
+    publishedDate: string;
+    title: string;
+}
 
 export const BookCard = ({ review }: { review: Review }) => {
     return (

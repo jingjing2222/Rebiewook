@@ -1,16 +1,30 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SetStateAction, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import SearchedBooks from "@/components/SearchedBooks";
-import { SearchedBook } from "@/types/Type";
+
+interface SearchedBook {
+    authors: string[];
+    contents: string;
+    datetime: string;
+    isbn: string;
+    price: number;
+    publisher: string;
+    sale_price: number;
+    status: string;
+    thumbnail: string;
+    title: string;
+    translators: string[];
+    url: string;
+}
 
 export const BookSearch = ({
-    setSelectedBook,
+    onClick,
 }: {
-    setSelectedBook: React.Dispatch<SetStateAction<SearchedBook | undefined>>;
+    onClick: (book: SearchedBook) => void;
 }) => {
     const inputTitle = useRef("");
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
     const [searchedBooks, setSearchedBooks] = useState<SearchedBook[]>([]);
 
     const fetchBooks = async (books: string) => {
@@ -55,8 +69,8 @@ export const BookSearch = ({
                             (book: SearchedBook, index: number) => (
                                 <SearchedBooks
                                     book={book}
-                                    setSelectedBook={setSelectedBook}
-                                    index={index}
+                                    onClick={onClick}
+                                    key={index}
                                 />
                             )
                         )

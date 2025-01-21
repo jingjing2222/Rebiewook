@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/dialog";
 
 export default function BaseModal({
-    children,
+    Child,
     title,
     handleClick,
     buttonColor,
 }: {
-    children: React.ReactNode;
+    Child: (closeModal: () => void) => React.ReactNode;
     title: string;
     handleClick: (data: FormData, closeModal: () => void) => void;
     buttonColor: string;
@@ -44,7 +44,7 @@ export default function BaseModal({
                         handleClick(formData, closeModal);
                     }}
                 >
-                    {children}
+                    <Child closeModal={closeModal} />
                 </form>
             </DialogContent>
         </Dialog>

@@ -2,7 +2,16 @@ import { useEffect, useState } from "react";
 import { BookCard } from "./BookCard";
 import { supabase } from "@/supabase/Client";
 import camelcaseKeys from "camelcase-keys";
-import { Review } from "@/types/Type";
+
+interface Review {
+    author: string;
+    coverImage: string;
+    description: string;
+    detailedReview: string;
+    id: number;
+    publishedDate: string;
+    title: string;
+}
 
 export const BookReviewGrid = () => {
     const [reviews, setReviews] = useState<Review[]>([]);
@@ -19,7 +28,6 @@ export const BookReviewGrid = () => {
             }
 
             const camelCasedBook = camelcaseKeys(book);
-            console.log(camelCasedBook);
             setReviews(camelCasedBook);
         })();
     }, []);

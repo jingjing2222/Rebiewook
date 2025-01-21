@@ -3,7 +3,16 @@ import { supabase } from "@/supabase/Client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import camelcaseKeys from "camelcase-keys";
-import { Review } from "@/types/Type";
+
+interface Review {
+    author: string;
+    coverImage: string;
+    description: string;
+    detailedReview: string;
+    id: number;
+    publishedDate: string;
+    title: string;
+}
 
 export default function BookDetailsPage() {
     const { id } = useParams<string>();

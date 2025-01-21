@@ -1,16 +1,25 @@
-import { SearchedBookComponent } from "@/types/Type";
+interface SearchedBook {
+    authors: string[];
+    contents: string;
+    datetime: string;
+    isbn: string;
+    price: number;
+    publisher: string;
+    sale_price: number;
+    status: string;
+    thumbnail: string;
+    title: string;
+    translators: string[];
+    url: string;
+}
+interface SearchedBookProps {
+    onClick: (book: SearchedBook) => void;
+    book: SearchedBook;
+}
 
-export default function SearchedBooks({
-    setSelectedBook,
-    book,
-    index,
-}: SearchedBookComponent) {
+export default function SearchedBooks({ onClick, book }: SearchedBookProps) {
     return (
-        <li
-            className="mb-4 last:mb-0"
-            key={index}
-            onClick={() => setSelectedBook(book)}
-        >
+        <li className="mb-4 last:mb-0" onClick={() => onClick(book)}>
             <div className="flex items-center p-4 bg-[#F4A460] bg-opacity-20 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:bg-opacity-30 cursor-pointer wood-texture">
                 <div className="flex-shrink-0 w-16 h-24 mr-4 overflow-hidden rounded-md shadow-sm">
                     {book.thumbnail ? (
