@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
-import { LoginModal } from "@/components/Modal/LoginModal";
+import Modal from "@/components/Modal/Modal";
 
 export default function Header() {
     const [cookies, , removeCookie] = useCookies(["username"]);
@@ -37,7 +37,11 @@ export default function Header() {
                         Logout
                     </Button>
                 ) : (
-                    <LoginModal />
+                    <Modal
+                        type="Login"
+                        title="login"
+                        buttonColor="bg-[#D2691E] hover:bg-[#A0522D]"
+                    />
                 )}
             </>
         );

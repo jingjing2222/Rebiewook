@@ -7,17 +7,17 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { LoginModal } from "@/components/Modal/LoginModal";
+import DeleteModal from "@/components/Modal/DeleteModal";
 
-export default function BaseModal({
-    Child,
+export default function Modal({
     title,
-    handleClick,
     buttonColor,
+    type,
 }: {
-    Child: (closeModal: () => void) => React.ReactNode;
     title: string;
-    handleClick: (data: FormData, closeModal: () => void) => void;
     buttonColor: string;
+    type: string;
 }) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -36,16 +36,10 @@ export default function BaseModal({
                         {title}
                     </DialogTitle>
                 </DialogHeader>
-                <form
-                    className="space-y-4"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        const formData = new FormData(e.currentTarget);
-                        handleClick(formData, closeModal);
-                    }}
-                >
-                    <Child closeModal={closeModal} />
-                </form>
+                    {type === "Delete" && (
+                        <DeleteModal closeModal={closeModal} />
+                    )}
+                    {type === "Login" && <LoginModal closeModal={closeModal} />}
             </DialogContent>
         </Dialog>
     );

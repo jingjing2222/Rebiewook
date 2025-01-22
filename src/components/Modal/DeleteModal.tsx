@@ -1,4 +1,3 @@
-import BaseModal from "@/components/Modal/BaseModal";
 import { Button } from "@/components/ui/button";
 
 export default function DeleteModal({
@@ -7,12 +6,8 @@ export default function DeleteModal({
     closeModal: () => void;
 }) {
     return (
-        <BaseModal
-            title="삭제"
-            handleClick={() => {}}
-            buttonColor="bg-[#B22222] hover:bg-[#CD5C5C]"
-        >
-            <>
+        <>
+            <form className="space-y-4">
                 <div className="text-2xl font-bold text-[#8B4513]">
                     삭제하시겠습니까?
                 </div>
@@ -24,7 +19,7 @@ export default function DeleteModal({
                         아니요
                     </Button>
                 </div>
-            </>
-        </BaseModal>
+            </form>
+        </>
     );
 }

@@ -1,4 +1,4 @@
-import DeleteModal from "@/components/Modal/DeleteModal";
+import Modal from "@/components/Modal/Modal";
 import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router";
@@ -19,7 +19,11 @@ export const BookMenu = () => {
                     <Link to="edit">
                         <Button>수정</Button>
                     </Link>
-                    <DeleteModal />
+                    <Modal
+                        type="Delete"
+                        title="삭제"
+                        buttonColor="bg-[#B22222] hover:bg-[#CD5C5C]"
+                    />
                 </div>
             )}
         </>
