@@ -29,7 +29,7 @@ export const EditPage = () => {
 
     return (
         <>
-            <UploadBasedForm onClick={updateBook} />
+            <UploadBasedForm onClick={updateBook} content="Edit"/>
         </>
     );
 };

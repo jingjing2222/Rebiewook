@@ -33,8 +33,10 @@ export interface DBBook {
 
 export default function UploadBasedForm({
     onClick,
+    content,
 }: {
     onClick: (book: DBBook) => Promise<void>;
+    content: string;
 }) {
     const navigate = useNavigate();
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
@@ -107,7 +109,7 @@ export default function UploadBasedForm({
                     className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
                     onClick={() => navigate("/")}
                 >
-                    Upload Book Review
+                    {`${content} Book!`}
                 </Button>
             </form>
         </div>

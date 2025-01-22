@@ -1,6 +1,6 @@
 import { BookCover } from "@/components/BookDetailes/BookCover";
 import { BookDescription } from "@/components/BookDetailes/BookDescription";
-import { BookMenu } from "@/components/BookDetailes/BookMenu";
+import { BookDetailedMenu } from "@/components/BookDetailes/BookDetailedMenu";
 import { supabase } from "@/supabase/Client";
 
 interface Review {
@@ -38,7 +38,7 @@ export function BookDetails({
                         publishedDate={publishedDate}
                         detailedReview={detailedReview}
                     />
-                    <BookMenu handleDelete={handleDelete} />
+                    <BookDetailedMenu handleDelete={handleDelete} />
                 </div>
             </div>
         </div>

@@ -25,7 +25,7 @@ export const UploadPage = () => {
 
     return (
         <>
-            <UploadBasedForm onClick={insertBook} />
+            <UploadBasedForm onClick={insertBook} content="Upload" />
         </>
     );
 };

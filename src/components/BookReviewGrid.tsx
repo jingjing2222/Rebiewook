@@ -21,7 +21,8 @@ export const BookReviewGrid = () => {
         async function fetchReviews() {
             const { data: book, error } = await supabase
                 .from("book")
-                .select("*");
+                .select("*")
+                .order("published_date", { ascending: false });
 
             if (error || !book) {
                 console.error(error);

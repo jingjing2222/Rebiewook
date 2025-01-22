@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/supabase/Client";
 import { Label } from "@radix-ui/react-label";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
@@ -7,16 +8,29 @@ import { useForm } from "react-hook-form";
 interface UserInform {
     username: string;
     password: string;
+    id?: number;
 }
 
 export const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
     const { register, handleSubmit } = useForm<UserInform>();
     const [, setCookie] = useCookies(["username"]);
 
-    const handleLogin = (data: UserInform, closeModal: () => void) => {
-        console.log("Login attempted with:", data.username, data.password);
-        setCookie("username", data.username, { path: "/" });
-        closeModal();
+    const handleLogin = (datas: UserInform, closeModal: () => void) => {
+        async function getAdminId() {
+            const { data: user, error } = await supabase
+                .from("user")
+                .select("*");
+
+            if (error) console.error(error);
+            if (
+                user![0].username === datas.username &&
+                user![0].password === datas.password
+            ) {
+                setCookie("username", datas.username, { path: "/" });
+                closeModal();
+            } else console.log("틀렸습니다");
+        }
+        getAdminId();
     };
 
     return (

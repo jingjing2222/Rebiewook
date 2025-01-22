@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router";
 
-export const BookMenu = ({
+export const BookDetailedMenu = ({
     handleDelete = () => {},
 }: {
     handleDelete?: () => void;
@@ -21,7 +21,7 @@ export const BookMenu = ({
             {cookies.username && (
                 <div className="flex-initial flex justify-end">
                     <Link to="edit">
-                        <Button>수정</Button>
+                        <Button className="mx-2">수정</Button>
                     </Link>
                     <Modal
                         type="Delete"
