@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import MDEditor from "@uiw/react-md-editor";
 
 interface SearchedBook {
     authors: string[];
@@ -52,6 +53,7 @@ export default function UploadBasedForm({
             setValue("cover_image", selectedBook.thumbnail);
         }
     }, [selectedBook, setValue]);
+    const [mdValue, setMdValue] = useState<string>("# hello world!");
 
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
@@ -111,6 +113,14 @@ export default function UploadBasedForm({
                 >
                     {`${content} Book!`}
                 </Button>
+                <MDEditor
+                    height={500}
+                    value={mdValue}
+                    onChange={(e) => {
+                        setValue("detailed_review", e!);
+                        setMdValue(e!);
+                    }}
+                />
             </form>
         </div>
     );

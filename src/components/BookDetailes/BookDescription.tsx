@@ -1,3 +1,4 @@
+import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
 import { format } from "date-fns";
 
 export const BookDescription = ({
@@ -14,18 +15,20 @@ export const BookDescription = ({
     detailedReview: string;
 }) => {
     return (
-        <>
+        <div className="">
             <h1 className="text-3xl font-bold mb-2 text-[#8B4513]">{title}</h1>
             <h2 className="text-xl mb-4 text-[#A0522D]">by {author}</h2>
             <p className="mb-4 text-[#8B4513]">{description}</p>
             <p className="mb-4 text-[#A0522D]">
-                Published on: {format(new Date(publishedDate), "MMMM d, yyyy")}
+                쓴 날: {format(new Date(publishedDate), "MMMM d, yyyy")}
             </p>
             <h3 className="text-2xl font-semibold mb-2 text-[#8B4513]">
-                Detailed Review
+                독후감
             </h3>
-            <p className="mb-6 text-[#8B4513]">{detailedReview}</p>
+            <p className="mb-6 text-[#8B4513] p-3 border-none rounded-s">
+                <MarkdownRenderer>{detailedReview}</MarkdownRenderer>
+            </p>
             <div className="flex justify-between"></div>
-        </>
+        </div>
     );
 };
