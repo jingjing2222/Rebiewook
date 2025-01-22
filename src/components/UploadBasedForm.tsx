@@ -45,6 +45,7 @@ export default function UploadBasedForm({
     );
 
     const { register, handleSubmit, setValue } = useForm<DBBook>();
+    const [editerChoice, setEditerChoice] = useState(true);
 
     useEffect(() => {
         if (selectedBook) {
@@ -53,7 +54,9 @@ export default function UploadBasedForm({
             setValue("cover_image", selectedBook.thumbnail);
         }
     }, [selectedBook, setValue]);
-    const [mdValue, setMdValue] = useState<string>("# hello world!");
+    const [mdValue, setMdValue] = useState<string>(
+        "# Form과 마크다운 둘 중 하나 선택 가능합니다~"
+    );
 
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
@@ -98,13 +101,34 @@ export default function UploadBasedForm({
                     />
                 </div>
                 <div>
-                    <Label htmlFor="detailedReview">독후감</Label>
-                    <Textarea
-                        id="detailedReview"
-                        {...register("detailed_review")}
-                        required
-                        className="h-40"
-                    />
+                    <Label htmlFor="detailedReview">
+                        독후감
+                        <Button
+                            onClick={(e) => {
+                                setEditerChoice((prev) => !prev);
+                                e.preventDefault();
+                            }}
+                        >
+                            에디터 변경
+                        </Button>
+                    </Label>
+                    {editerChoice ? (
+                        <Textarea
+                            id="detailedReview"
+                            {...register("detailed_review")}
+                            required
+                            className="h-40"
+                        />
+                    ) : (
+                        <MDEditor
+                            height={500}
+                            value={mdValue}
+                            onChange={(e) => {
+                                setValue("detailed_review", e!);
+                                setMdValue(e!);
+                            }}
+                        />
+                    )}
                 </div>
                 <Button
                     type="submit"
@@ -113,14 +137,6 @@ export default function UploadBasedForm({
                 >
                     {`${content} Book!`}
                 </Button>
-                <MDEditor
-                    height={500}
-                    value={mdValue}
-                    onChange={(e) => {
-                        setValue("detailed_review", e!);
-                        setMdValue(e!);
-                    }}
-                />
             </form>
         </div>
     );
