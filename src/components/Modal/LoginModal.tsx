@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/supabase/Client";
 import { Label } from "@radix-ui/react-label";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 
@@ -14,6 +15,7 @@ interface UserInform {
 export const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
     const { register, handleSubmit } = useForm<UserInform>();
     const [, setCookie] = useCookies(["username"]);
+    const [correct, setCorrect] = useState<boolean | null>();
 
     async function handleLogin(inputValue: UserInform) {
         const { data: user, error } = await supabase.from("user").select("*");
@@ -25,8 +27,7 @@ export const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
         ) {
             setCookie("username", inputValue.username, { path: "/" });
             closeModal();
-        } else console.log("틀렸습니다");
-        closeModal();
+        } else setCorrect(true);
     }
 
     return (
@@ -59,6 +60,11 @@ export const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
                 >
                     로그인
                 </Button>
+                {correct === true && (
+                    <div className="text-center text-red-500">
+                        관리자가 아닙니다!
+                    </div>
+                )}
             </form>
         </>
     );
