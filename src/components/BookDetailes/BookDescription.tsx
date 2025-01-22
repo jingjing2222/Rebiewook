@@ -22,10 +22,11 @@ export const BookDescription = ({
             <p className="mb-4 text-[#A0522D]">
                 쓴 날: {format(new Date(publishedDate), "MMMM d, yyyy")}
             </p>
-            <h3 className="text-2xl font-semibold mb-2 text-[#8B4513]">
-                독후감
-            </h3>
-            <p className="mb-6 text-[#8B4513] p-3 border-none rounded-s">
+
+            <p className="mb-6 text-[#8B4513] p-3 border-black border-2 rounded-2xl">
+                <h3 className="text-2xl font-semibold mb-2 text-[#8B4513]">
+                    독후감
+                </h3>
                 <MarkdownRenderer>{detailedReview}</MarkdownRenderer>
             </p>
             <div className="flex justify-between"></div>
