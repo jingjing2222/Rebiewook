@@ -12,13 +12,13 @@ interface Review {
 
 export const BookCard = ({ review }: { review: Review }) => {
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105">
+        <div className="bg-white rounded-3xl shadow-md overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105">
             <Link to={`/bookdetailes/${review.id}`}>
-                <div className="relative aspect-[2/3] w-full">
+                <div className="relative w-full">
                     <img
                         src={review.coverImage || "/placeholder.svg"}
                         alt={`Cover of ${review.title}`}
-                        className="object-cover w-full h-full"
+                        className="object-cover w-full h-full my-1"
                     />
                 </div>
                 <div className="p-4">

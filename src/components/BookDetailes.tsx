@@ -27,7 +27,7 @@ export function BookDetails({
         if (error) console.log("error");
     };
     return (
-        <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
+        <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-full shadow-md ">
             <div className="flex flex-col md:flex-row">
                 <BookCover coverImage={coverImage} title={title} />
                 <div className="md:w-2/3">

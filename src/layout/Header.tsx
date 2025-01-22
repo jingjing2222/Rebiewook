@@ -20,7 +20,7 @@ export default function Header() {
                     <Link to="/upload">
                         <Button
                             variant="ghost"
-                            className="text-white hover:text-[#F4A460]"
+                            className="text-white hover:text-[#F4A460] text-sm sm:text-base"
                         >
                             Upload Review
                         </Button>
@@ -32,7 +32,7 @@ export default function Header() {
                             removeCookie("username", { path: "/" });
                             setIsAdmin(false);
                         }}
-                        className="bg-[#D2691E] hover:bg-[#A0522D] text-white"
+                        className="bg-[#D2691E] hover:bg-[#A0522D] text-white text-sm sm:text-base"
                     >
                         Logout
                     </Button>
@@ -54,17 +54,17 @@ export default function Header() {
                     <img
                         src="https://blogpfthumb-phinf.pstatic.net/MjAyNDEwMDdfMjMx/MDAxNzI4MjYzMTA0NzUw.FbYh7XyvweyOmyPdrRwVS7vNFcFFWpiLEULuMYoYCjwg.MV-ux-a41it77d4-HZaZp_7qdqWL5EZ29M8bqnwNH6Yg.JPEG/profileImage.jpg?type=w161"
                         alt="My Personal Book Report"
-                        width={200}
-                        height={50}
-                        className={`cursor-pointer bg-[#F4A460] rounded transition-all ${
+                        className={`opacity-100 cursor-pointer bg-[#F4A460] rounded transition-all w-40 h-40${
                             isHovered ? "opacity-80" : ""
                         }`}
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                     />
                 </Link>
-                <h2 className="text-3xl">나는 생각한다, 나는 존재한다</h2>
-                <nav className="flex items-center space-x-4">
+                <div className="text-xl md:text-3xl sm:text-2xl hidden sm:block">
+                    나는 생각한다, 나는 존재한다
+                </div>
+                <nav className="flex flex-col sm:flex-row items-center space-x-4">
                     {<ValidateAdmin />}
                 </nav>
             </div>
