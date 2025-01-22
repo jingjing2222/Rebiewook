@@ -4,7 +4,6 @@ import { format } from "date-fns";
 export const BookDescription = ({
     title,
     author,
-    description,
     publishedDate,
     detailedReview,
 }: {
@@ -15,18 +14,23 @@ export const BookDescription = ({
     detailedReview: string;
 }) => {
     return (
-        <div className="">
-            <h1 className="text-3xl font-bold mb-2 text-[#8B4513]">{title}</h1>
-            <h2 className="text-xl mb-4 text-[#A0522D]">by {author}</h2>
-            <p className="mb-4 text-[#8B4513]">{description}</p>
-            <p className="mb-4 text-[#A0522D]">
-                쓴 날: {format(new Date(publishedDate), "MMMM d, yyyy")}
-            </p>
+        <div>
+            <div className="flex mb-4 items-center justify-between">
+                <p className="flex-initial">
+                    <h1 className="text-3xl font-bold mb-2 text-[#8B4513] inline">
+                        {title}
+                    </h1>
+                    <h2 className="text-xl mb-4 text-[#A0522D] inline ">
+                        {" "}
+                        by {author}
+                    </h2>
+                </p>
+                <div className="flex-initial mb-4 text-[#A0522D] inline">
+                    {`  ${format(new Date(publishedDate), "MMMM d, yyyy")}`}
+                </div>
+            </div>
 
             <p className="mb-6 text-[#8B4513] p-3 border-black border-2 rounded-2xl">
-                <h3 className="text-2xl font-semibold mb-2 text-[#8B4513]">
-                    독후감
-                </h3>
                 <MarkdownRenderer>{detailedReview}</MarkdownRenderer>
             </p>
             <div className="flex justify-between"></div>

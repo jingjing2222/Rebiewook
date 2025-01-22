@@ -5,21 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import MDEditor from "@uiw/react-md-editor";
 
 interface SearchedBook {
     authors: string[];
-    contents: string;
-    datetime: string;
-    isbn: string;
-    price: number;
-    publisher: string;
-    sale_price: number;
-    status: string;
     thumbnail: string;
     title: string;
-    translators: string[];
     url: string;
 }
 
@@ -38,12 +30,14 @@ export default function UploadBasedForm({
 }: {
     onClick: (book: DBBook) => Promise<void>;
     content: string;
+    isSuccess?: string | undefined;
 }) {
-    const navigate = useNavigate();
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
         undefined
     );
-
+    const [mdValue, setMdValue] = useState(
+        "# Form과 마크다운 둘 중 하나 선택 가능합니다~"
+    );
     const { register, handleSubmit, setValue } = useForm<DBBook>();
     const [editerChoice, setEditerChoice] = useState(true);
 
@@ -54,9 +48,6 @@ export default function UploadBasedForm({
             setValue("cover_image", selectedBook.thumbnail);
         }
     }, [selectedBook, setValue]);
-    const [mdValue, setMdValue] = useState<string>(
-        "# Form과 마크다운 둘 중 하나 선택 가능합니다~"
-    );
 
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
@@ -133,7 +124,6 @@ export default function UploadBasedForm({
                 <Button
                     type="submit"
                     className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
-                    onClick={() => navigate("/")}
                 >
                     {`${content} Book!`}
                 </Button>

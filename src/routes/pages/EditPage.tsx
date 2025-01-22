@@ -1,6 +1,6 @@
 import UploadBasedForm from "@/components/UploadBasedForm";
 import { supabase } from "@/supabase/Client";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export interface DBBook {
     author: string;
@@ -13,22 +13,24 @@ export interface DBBook {
 
 export const EditPage = () => {
     const { id } = useParams<string>();
+    const navigate = useNavigate();
 
     async function updateBook(book: DBBook) {
         const { data, error } = await supabase
             .from("book")
             .update(book)
-            .eq("id", id)
+            .eq("id", id);
         if (error) {
             console.error(error);
         } else {
+            navigate("/");
             console.log(data);
         }
     }
 
     return (
         <>
-            <UploadBasedForm onClick={updateBook} content="Edit"/>
+            <UploadBasedForm onClick={updateBook} content="Edit" />
         </>
     );
 };

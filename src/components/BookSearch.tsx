@@ -27,6 +27,12 @@ export const BookSearch = ({
     const [loading, setLoading] = useState(false);
     const [searchedBooks, setSearchedBooks] = useState<SearchedBook[]>([]);
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") {
+            fetchBooks(inputTitle.current);
+        }
+    };
+
     const fetchBooks = async (books: string) => {
         setLoading(true);
         const url = `https://dapi.kakao.com/v3/search/book?target=title&query=${books}`;
@@ -57,6 +63,7 @@ export const BookSearch = ({
                     onChange={(e) => {
                         inputTitle.current = e.currentTarget.value;
                     }}
+                    onKeyDown={handleKeyDown}
                 />
                 <Button onClick={() => fetchBooks(inputTitle.current)}>
                     Search
