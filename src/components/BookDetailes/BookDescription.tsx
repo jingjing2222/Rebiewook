@@ -16,7 +16,7 @@ export const BookDescription = ({
     return (
         <div>
             <div className="flex mb-4 items-center justify-between">
-                <p className="flex-initial">
+                <p className="flex-initial flex flex-col">
                     <h1 className="text-lg md:text-3xl font-bold mb-2 text-[#8B4513] inline">
                         {title}
                     </h1>
@@ -24,10 +24,10 @@ export const BookDescription = ({
                         {" "}
                         by {author}
                     </h2>
+                    <div className="flex-initial text-sm mb-4 text-[#A0522D] inline">
+                        {`  ${format(new Date(publishedDate), "yyyy-MM-dd")}`}
+                    </div>
                 </p>
-                <div className="flex-initial text-sm mb-4 text-[#A0522D] inline">
-                    {`  ${format(new Date(publishedDate), ", yyyy, MMMM d")}`}
-                </div>
             </div>
 
             <p className="mb-6 text-[#8B4513] p-3 border-black border-2 rounded-2xl">
