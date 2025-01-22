@@ -7,11 +7,11 @@ export const BookCover = ({
 }) => {
     return (
         <>
-            <div className="md:w-1/3 mb-6 md:mb-0 md:pr-6">
+            <div className="flex justify-center md:w-1/3 mb-6 md:mb-0">
                 <img
                     src={coverImage || "/placeholder.svg"}
                     alt={`Cover of ${title}`}
-                    className="w-full h-auto rounded-lg shadow-md"
+                    className="w-6/12 h-auto rounded-lg shadow-md"
                 />
             </div>
         </>

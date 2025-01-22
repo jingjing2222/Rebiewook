@@ -27,10 +27,12 @@ export interface DBBook {
 export default function UploadBasedForm({
     onClick,
     content,
+    defaultValue,
 }: {
     onClick: (book: DBBook) => Promise<void>;
     content: string;
-    isSuccess?: string | undefined;
+    getBookData?: () => void;
+    defaultValue?: DBBook;
 }) {
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
         undefined
@@ -59,17 +61,28 @@ export default function UploadBasedForm({
             <form className="space-y-6" onSubmit={handleSubmit(onClick)}>
                 <div>
                     <Label htmlFor="title">제목</Label>
-                    <Input id="title" {...register("title")} required />
+                    <Input
+                        id="title"
+                        {...register("title")}
+                        defaultValue={defaultValue?.title}
+                        required
+                    />
                 </div>
                 <div>
                     <Label htmlFor="author">저자</Label>
-                    <Input id="author" {...register("author")} required />
+                    <Input
+                        id="author"
+                        {...register("author")}
+                        defaultValue={defaultValue?.author}
+                        required
+                    />
                 </div>
                 <div>
                     <Label htmlFor="description">간략한 설명</Label>
                     <Input
                         id="description"
                         {...register("description")}
+                        defaultValue={defaultValue?.description}
                         required
                     />
                 </div>
@@ -78,6 +91,7 @@ export default function UploadBasedForm({
                     <Input
                         id="publishedDate"
                         type="date"
+                        defaultValue={defaultValue?.published_date}
                         {...register("published_date")}
                         required
                     />
@@ -87,6 +101,7 @@ export default function UploadBasedForm({
                     <Input
                         id="coverImage"
                         type="url"
+                        defaultValue={defaultValue?.cover_image}
                         {...register("cover_image")}
                         required
                     />
@@ -107,6 +122,7 @@ export default function UploadBasedForm({
                         <Textarea
                             id="detailedReview"
                             {...register("detailed_review")}
+                            defaultValue={defaultValue?.detailed_review}
                             required
                             className="h-40"
                         />
@@ -127,6 +143,13 @@ export default function UploadBasedForm({
                 >
                     {`${content} Book!`}
                 </Button>
+                <button
+                    onClick={() => {
+                        console.log(defaultValue);
+                    }}
+                >
+                    출력
+                </button>
             </form>
         </div>
     );
