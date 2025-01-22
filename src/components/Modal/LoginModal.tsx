@@ -15,32 +15,23 @@ export const LoginModal = ({ closeModal }: { closeModal: () => void }) => {
     const { register, handleSubmit } = useForm<UserInform>();
     const [, setCookie] = useCookies(["username"]);
 
-    const handleLogin = (datas: UserInform, closeModal: () => void) => {
-        async function getAdminId() {
-            const { data: user, error } = await supabase
-                .from("user")
-                .select("*");
+    async function handleLogin(inputValue: UserInform) {
+        const { data: user, error } = await supabase.from("user").select("*");
 
-            if (error) console.error(error);
-            if (
-                user![0].username === datas.username &&
-                user![0].password === datas.password
-            ) {
-                setCookie("username", datas.username, { path: "/" });
-                closeModal();
-            } else console.log("틀렸습니다");
-        }
-        getAdminId();
-    };
+        if (error) console.error(error);
+        if (
+            user![0].username === inputValue.username &&
+            user![0].password === inputValue.password
+        ) {
+            setCookie("username", inputValue.username, { path: "/" });
+            closeModal();
+        } else console.log("틀렸습니다");
+        closeModal();
+    }
 
     return (
         <>
-            <form
-                className="space-y-4"
-                onSubmit={handleSubmit((userInform) => {
-                    handleLogin(userInform, closeModal);
-                })}
-            >
+            <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
                 <div className="space-y-2">
                     <Label htmlFor="username" className="text-[#8B4513]">
                         Username

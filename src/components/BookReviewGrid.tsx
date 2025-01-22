@@ -17,22 +17,23 @@ export const BookReviewGrid = () => {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        async function fetchReviews() {
-            const { data: book, error } = await supabase
-                .from("book")
-                .select("*")
-                .order("published_date", { ascending: false });
+    async function fetchReviews() {
+        const { data: book, error } = await supabase
+            .from("book")
+            .select("*")
+            .order("published_date", { ascending: false });
 
-            if (error || !book) {
-                console.error(error);
-                return;
-            }
-
-            const camelCasedBook = camelcaseKeys(book);
-            setLoading(false);
-            setReviews(camelCasedBook);
+        if (error || !book) {
+            console.error(error);
+            return;
         }
+
+        const camelCasedBook = camelcaseKeys(book);
+        setLoading(false);
+        setReviews(camelCasedBook);
+    }
+
+    useEffect(() => {
         setLoading(true);
         fetchReviews();
     }, []);

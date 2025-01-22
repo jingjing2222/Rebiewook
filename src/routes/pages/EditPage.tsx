@@ -19,7 +19,6 @@ export const EditPage = () => {
             .from("book")
             .update(book)
             .eq("id", id)
-            .select();
         if (error) {
             console.error(error);
         } else {
