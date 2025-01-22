@@ -52,6 +52,7 @@ export const EditPage = () => {
                 onClick={updateBook}
                 content="Edit"
                 defaultValue={defaultValue}
+                onChange
             />
         </>
     );
