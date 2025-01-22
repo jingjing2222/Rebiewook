@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/supabase/Client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 interface SearchedBook {
     authors: string[];
@@ -32,6 +33,7 @@ export interface DBBook {
 }
 
 export default function UploadForm() {
+    const navigate = useNavigate();
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
         undefined
     );
@@ -112,6 +114,7 @@ export default function UploadForm() {
                 <Button
                     type="submit"
                     className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
+                    onClick={() => navigate("/")}
                 >
                     Upload Book Review
                 </Button>
