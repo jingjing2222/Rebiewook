@@ -14,10 +14,12 @@ export default function Modal({
     title,
     buttonColor,
     type,
+    handleDelete = () => {},
 }: {
     title: string;
     buttonColor: string;
     type: string;
+    handleDelete?: () => void;
 }) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -36,10 +38,13 @@ export default function Modal({
                         {title}
                     </DialogTitle>
                 </DialogHeader>
-                    {type === "Delete" && (
-                        <DeleteModal closeModal={closeModal} />
-                    )}
-                    {type === "Login" && <LoginModal closeModal={closeModal} />}
+                {type === "Delete" && (
+                    <DeleteModal
+                        closeModal={closeModal}
+                        handleDelete={handleDelete}
+                    />
+                )}
+                {type === "Login" && <LoginModal closeModal={closeModal} />}
             </DialogContent>
         </Dialog>
     );

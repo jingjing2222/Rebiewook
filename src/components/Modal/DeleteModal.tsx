@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 
 export default function DeleteModal({
+    handleDelete,
     closeModal,
 }: {
+    handleDelete: () => void;
     closeModal: () => void;
 }) {
     return (
@@ -17,6 +19,7 @@ export default function DeleteModal({
                         <Button
                             type="submit"
                             className="flex-initial bg-[#B22222] hover:bg-[#CD5C5C] mr-3"
+                            onClick={handleDelete}
                         >
                             삭제
                         </Button>

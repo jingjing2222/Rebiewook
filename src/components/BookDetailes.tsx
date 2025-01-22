@@ -1,6 +1,7 @@
 import { BookCover } from "@/components/BookDetailes/BookCover";
 import { BookDescription } from "@/components/BookDetailes/BookDescription";
 import { BookMenu } from "@/components/BookDetailes/BookMenu";
+import { supabase } from "@/supabase/Client";
 
 interface Review {
     author: string;
@@ -13,6 +14,7 @@ interface Review {
 }
 
 export function BookDetails({
+    id,
     title,
     author,
     description,
@@ -20,6 +22,10 @@ export function BookDetails({
     coverImage,
     detailedReview,
 }: Review) {
+    const handleDelete = async () => {
+        const { error } = await supabase.from("book").delete().eq("id", id);
+        if (error) console.log("error");
+    };
     return (
         <div className="bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
             <div className="flex flex-col md:flex-row">
@@ -32,7 +38,7 @@ export function BookDetails({
                         publishedDate={publishedDate}
                         detailedReview={detailedReview}
                     />
-                    <BookMenu />
+                    <BookMenu handleDelete={handleDelete} />
                 </div>
             </div>
         </div>

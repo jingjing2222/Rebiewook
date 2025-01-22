@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router";
 
-export const BookMenu = () => {
+export const BookMenu = ({
+    handleDelete = () => {},
+}: {
+    handleDelete?: () => void;
+}) => {
     const [cookies] = useCookies(["username"]);
 
     return (
@@ -23,6 +27,7 @@ export const BookMenu = () => {
                         type="Delete"
                         title="삭제"
                         buttonColor="bg-[#B22222] hover:bg-[#CD5C5C]"
+                        handleDelete={handleDelete}
                     />
                 </div>
             )}
