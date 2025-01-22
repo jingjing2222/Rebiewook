@@ -14,7 +14,7 @@ export default function Modal({
     title,
     buttonColor,
     type,
-    handleDelete = () => {},
+    handleDelete = () => {}, // 삭제 할 경우
 }: {
     title: string;
     buttonColor: string;

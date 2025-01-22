@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/supabase/Client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -32,7 +31,11 @@ export interface DBBook {
     title: string;
 }
 
-export default function UploadForm() {
+export default function UploadBasedForm({
+    onClick,
+}: {
+    onClick: (book: DBBook) => Promise<void>;
+}) {
     const navigate = useNavigate();
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
         undefined
@@ -48,18 +51,6 @@ export default function UploadForm() {
         }
     }, [selectedBook, setValue]);
 
-    async function updateBook(book: DBBook) {
-        const { data, error } = await supabase
-            .from("book")
-            .insert(book)
-            .select();
-        if (error) {
-            console.error(error);
-        } else {
-            console.log(data);
-        }
-    }
-
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
             <BookSearch
@@ -67,7 +58,7 @@ export default function UploadForm() {
                     setSelectedBook(book);
                 }}
             />
-            <form className="space-y-6" onSubmit={handleSubmit(updateBook)}>
+            <form className="space-y-6" onSubmit={handleSubmit(onClick)}>
                 <div>
                     <Label htmlFor="title">제목</Label>
                     <Input id="title" {...register("title")} required />
