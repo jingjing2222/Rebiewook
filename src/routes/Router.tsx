@@ -6,6 +6,8 @@ import { UploadPage } from "@/routes/pages/UploadPage";
 
 import { createBrowserRouter, RouterProvider } from "react-router";
 
+//            <ModalProvider />
+
 const router = createBrowserRouter([
     {
         path: "/",

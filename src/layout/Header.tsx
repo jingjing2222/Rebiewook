@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
-import Modal from "@/components/Modal/Modal";
+import { ModalContext } from "@/components/Modal/ModalContext";
 
 export default function Header() {
     const [cookies, , removeCookie] = useCookies(["username"]);
     const [isAdmin, setIsAdmin] = useState(cookies.username);
     const [isHovered, setIsHovered] = useState(false);
+    const { openModal, setModal } = useContext(ModalContext);
 
     useEffect(() => {
         setIsAdmin(cookies.username);
@@ -37,11 +38,15 @@ export default function Header() {
                         Logout
                     </Button>
                 ) : (
-                    <Modal
-                        type="Login"
-                        title="login"
-                        buttonColor="bg-[#D2691E] hover:bg-[#A0522D]"
-                    />
+                    <Button
+                        className="bg-[#D2691E] hover:bg-[#A0522D]"
+                        onClick={() => {
+                            openModal();
+                            setModal("login");
+                        }}
+                    >
+                        Login
+                    </Button>
                 )}
             </>
         );

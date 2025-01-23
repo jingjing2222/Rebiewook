@@ -1,13 +1,19 @@
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/supabase/Client";
 import { Link } from "react-router";
 
 export default function DeleteModal({
-    handleDelete,
     closeModal,
+    id,
 }: {
-    handleDelete: () => void;
     closeModal: () => void;
+    id?: number;
 }) {
+    const handleDelete = async () => {
+        const { error } = await supabase.from("book").delete().eq("id", id);
+        if (error) console.log("error");
+        else closeModal();
+    };
     return (
         <>
             <form className="space-y-4">
@@ -15,9 +21,9 @@ export default function DeleteModal({
                     삭제하시겠습니까?
                 </div>
                 <div className="flex justify-center">
-                    <Link to="/">
+                    <Link to={"/"}>
                         <Button
-                            type="submit"
+                            type="button"
                             className="flex-initial bg-[#B22222] hover:bg-[#CD5C5C] mr-3"
                             onClick={handleDelete}
                         >

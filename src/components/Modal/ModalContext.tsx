@@ -6,62 +6,65 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { createPortal } from "react-dom";
+import { LoginModal } from "@/components/Modal/LoginModal";
+import DeleteModal from "@/components/Modal/DeleteModal";
 
 interface ModalContextProps {
     openModal: () => void;
     closeModal: () => void;
-    dispatch: (action: ActionType) => void;
+    setModal: (type: string, id?: number) => void;
 }
 
 interface ActionType {
     type: string;
+    id: number;
 }
 
 interface ModalType {
     title: string;
-    content: string;
-    what: string;
+    content?: string;
+    type: string;
+    id?: number;
 }
 
 export const ModalContext = createContext<ModalContextProps>({
     openModal: () => {},
     closeModal: () => {},
-    dispatch: () => {},
+    setModal: () => {},
 });
 
-function reducer(modalType: ModalType, action: ActionType) {
+const reducer = (modalType: ModalType, action: ActionType) => {
     switch (action.type.toUpperCase()) {
         case "LOGIN":
             return {
-                ...modalType,
                 title: "Login",
                 content: "Login 내용",
-                what: "LOGIN",
+                type: "LOGIN",
             };
         case "DELETE":
             return {
-                ...modalType,
                 title: "Delete",
                 content: "Delete 내용",
-                what: "DELETE",
+                type: "DELETE",
+                id: action.id,
             };
         case "DEFAULT":
         default:
             return {
-                ...modalType,
                 title: "Default",
                 content: "Default 내용",
-                what: "DEFAULT",
+                type: "DEFAULT",
             };
     }
-}
+};
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);
     const Type = {
         title: "Default",
         content: "Default 내용",
-        what: "DEFAULT",
+        type: "DEFAULT",
+        id: 0,
     };
     const [modalType, dispatch] = useReducer(reducer, Type);
 
@@ -73,8 +76,12 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
         setIsOpen(false);
     };
 
+    const setModal = (type: string, id = 0) => {
+        dispatch({ type, id });
+    };
+
     return (
-        <ModalContext.Provider value={{ openModal, closeModal, dispatch }}>
+        <ModalContext.Provider value={{ openModal, closeModal, setModal }}>
             {children}
             {createPortal(
                 <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -84,7 +91,15 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                                 {modalType.title}
                             </DialogTitle>
                         </DialogHeader>
-                        {modalType.content}
+                        {modalType.type === "LOGIN" && (
+                            <LoginModal closeModal={closeModal} />
+                        )}
+                        {modalType.type === "DELETE" && (
+                            <DeleteModal
+                                closeModal={closeModal}
+                                id={modalType.id}
+                            />
+                        )}
                     </DialogContent>
                 </Dialog>,
                 document.body

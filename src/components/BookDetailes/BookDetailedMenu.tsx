@@ -1,15 +1,13 @@
-import Modal from "@/components/Modal/Modal";
+import { ModalContext } from "@/components/Modal/ModalContext";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router";
 
-export const BookDetailedMenu = ({
-    handleDelete = () => {},
-}: {
-    handleDelete?: () => void;
-}) => {
+export const BookDetailedMenu = ({ id }: { id: number }) => {
     const [cookies] = useCookies(["username"]);
 
+    const { openModal, setModal } = useContext(ModalContext);
     return (
         <>
             <div className="flex-initial flex justify-between">
@@ -24,12 +22,15 @@ export const BookDetailedMenu = ({
                         <Link to="edit">
                             <Button className="mx-2">수정</Button>
                         </Link>
-                        <Modal
-                            type="Delete"
-                            title="삭제"
-                            buttonColor="bg-[#B22222] hover:bg-[#CD5C5C]"
-                            handleDelete={handleDelete}
-                        />
+                        <Button
+                            className="bg-[#B22222] hover:bg-[#CD5C5C]"
+                            onClick={() => {
+                                openModal();
+                                setModal("delete", id);
+                            }}
+                        >
+                            삭제
+                        </Button>
                     </div>
                 )}
             </div>
