@@ -10,7 +10,7 @@
         "esModuleInterop": false,
         // 런타임 바벨 생태계 호환성을 위한 __importStar와 __importDefault 헬퍼를 내보내고 타입 시스템 호환성을 위해 --allowSyntheticDefaultImports를 활성화합니다.
         "allowSyntheticDefaultImports": true, // default export가 없는 모듈에서 default imports를 허용합니다. 코드 방출에는 영향을 주지 않으며, 타입 검사만 수행합니다
-        "strict": true, // strict mode에서 파싱하고 각 소스 파일에 대해 "use strict"를 내보냅니다.
+        "strict": true, // strict tmode에서 파싱하고 각 소스 파일에 대해 "use strict"를 내보냅니다.
         "forceConsistentCasingInFileNames": true, // 동일 파일 참조에 대해 일관성 없는 대소문자를 비활성화합니다.
         "module": "ESNext", // 모듈 코드 생성 지정: "ESNext"
         "moduleResolution": "Node", // 모듈 해석 방법 결정
