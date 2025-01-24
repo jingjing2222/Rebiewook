@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router";
 import MDEditor from "@uiw/react-md-editor";
 
 interface SearchedBook {
@@ -37,10 +36,8 @@ export default function UploadBasedForm({
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
         undefined
     );
-    const [mdValue, setMdValue] = useState(
-        "# Form과 마크다운 둘 중 하나 선택 가능합니다~"
-    );
-    const { register, handleSubmit, setValue } = useForm<DBBook>();
+    const [mdValue, setMdValue] = useState("");
+    const { register, handleSubmit, setValue, reset } = useForm<DBBook>();
     const [editerChoice, setEditerChoice] = useState(true);
 
     useEffect(() => {
@@ -50,6 +47,12 @@ export default function UploadBasedForm({
             setValue("cover_image", selectedBook.thumbnail);
         }
     }, [selectedBook, setValue]);
+
+    useEffect(() => {
+        if (!defaultValue) return;
+        reset(defaultValue);
+        setMdValue(defaultValue.detailed_review);
+    }, [defaultValue]);
 
     return (
         <div className="space-y-6 bg-[#F4A460] bg-opacity-20 p-6 rounded-lg shadow-md">
@@ -87,12 +90,13 @@ export default function UploadBasedForm({
                     />
                 </div>
                 <div>
-                    <Label htmlFor="publishedDate">쓴 날</Label>
+                    <Label htmlFor="publishedDate">쓴 날</Label>{" "}
+                    {/*date는 defaultValue가 안된다 */}
                     <Input
                         id="publishedDate"
                         type="date"
-                        defaultValue={defaultValue?.published_date}
                         {...register("published_date")}
+                        defaultValue={defaultValue?.published_date}
                         required
                     />
                 </div>
@@ -143,13 +147,6 @@ export default function UploadBasedForm({
                 >
                     {`${content} Book!`}
                 </Button>
-                <button
-                    onClick={() => {
-                        console.log(defaultValue);
-                    }}
-                >
-                    출력
-                </button>
             </form>
         </div>
     );
