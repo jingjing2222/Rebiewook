@@ -11,7 +11,7 @@ export const BookCover = ({
                 <img
                     src={coverImage || "/placeholder.svg"}
                     alt={`Cover of ${title}`}
-                    className="w-6/12 h-auto rounded-lg shadow-md"
+                    className="w-6/12 md:max-h-72 rounded-lg shadow-md"
                 />
             </div>
         </>

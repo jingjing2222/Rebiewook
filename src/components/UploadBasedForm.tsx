@@ -21,6 +21,7 @@ export interface DBBook {
     detailed_review: string;
     published_date: string;
     title: string;
+    markdown: boolean;
 }
 
 export default function UploadBasedForm({
@@ -38,7 +39,7 @@ export default function UploadBasedForm({
     );
     const [mdValue, setMdValue] = useState("");
     const { register, handleSubmit, setValue, reset } = useForm<DBBook>();
-    const [editerChoice, setEditerChoice] = useState(true);
+    const [editerChoice, setEditerChoice] = useState(false);
 
     useEffect(() => {
         if (selectedBook) {
@@ -52,6 +53,7 @@ export default function UploadBasedForm({
         if (!defaultValue) return;
         reset(defaultValue);
         setMdValue(defaultValue.detailed_review);
+        setEditerChoice(defaultValue.markdown);
     }, [defaultValue]);
 
     return (
@@ -123,14 +125,6 @@ export default function UploadBasedForm({
                         </Button>
                     </Label>
                     {editerChoice ? (
-                        <Textarea
-                            id="detailedReview"
-                            {...register("detailed_review")}
-                            defaultValue={defaultValue?.detailed_review}
-                            required
-                            className="h-40"
-                        />
-                    ) : (
                         <MDEditor
                             height={500}
                             value={mdValue}
@@ -139,11 +133,20 @@ export default function UploadBasedForm({
                                 setMdValue(e!);
                             }}
                         />
+                    ) : (
+                        <Textarea
+                            id="detailedReview"
+                            {...register("detailed_review")}
+                            defaultValue={defaultValue?.detailed_review}
+                            required
+                            className="h-40"
+                        />
                     )}
                 </div>
                 <Button
                     type="submit"
                     className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
+                    onClick={() => setValue("markdown", editerChoice)}
                 >
                     {`${content} Book!`}
                 </Button>

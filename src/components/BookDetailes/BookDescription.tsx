@@ -6,12 +6,14 @@ export const BookDescription = ({
     author,
     publishedDate,
     detailedReview,
+    markdown,
 }: {
     title: string;
     author: string;
     description: string;
     publishedDate: string;
     detailedReview: string;
+    markdown: boolean;
 }) => {
     return (
         <div>
@@ -30,10 +32,13 @@ export const BookDescription = ({
                 </div>
             </div>
 
-            <div className="mb-6 text-[#8B4513] p-3 border-black border-2 rounded-2xl">
-                <MarkdownRenderer>{detailedReview}</MarkdownRenderer>
+            <div className="mb-6 text-[#8B4513] p-3 border-black border-2 rounded-2xl md:min-h">
+                {markdown ? (
+                    <MarkdownRenderer>{detailedReview}</MarkdownRenderer>
+                ) : (
+                    <div>{detailedReview}</div>
+                )}
             </div>
-            <div className="flex justify-between"></div>
         </div>
     );
 };
