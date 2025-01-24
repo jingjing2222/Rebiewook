@@ -18,22 +18,24 @@ export default function BookDetailsPage() {
     const { id } = useParams<string>();
     const [book, setBook] = useState<Review>();
 
+    async function getBook() {
+        const { data: specificBook, error } = await supabase
+            .from("book")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+        if (error || !specificBook) {
+            console.error(error);
+            return;
+        }
+
+        const camelBook = camelcaseKeys(specificBook);
+        setBook(camelBook);
+    }
+
     useEffect(() => {
-        (async () => {
-            const { data: specificBook, error } = await supabase
-                .from("book")
-                .select("*")
-                .eq("id", id)
-                .single();
-
-            if (error || !specificBook) {
-                console.error(error);
-                return;
-            }
-
-            const camelBook = camelcaseKeys(specificBook);
-            setBook(camelBook);
-        })();
+        getBook();
     }, [id]);
 
     if (!book) {
