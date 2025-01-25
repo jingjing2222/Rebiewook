@@ -36,7 +36,7 @@ export const BookDescription = ({
                 {markdown ? (
                     <MarkdownRenderer>{detailedReview}</MarkdownRenderer>
                 ) : (
-                    <div>{detailedReview}</div>
+                    <p className="whitespace-pre-wrap">{detailedReview}</p>
                 )}
             </div>
         </div>

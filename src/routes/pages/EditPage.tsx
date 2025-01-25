@@ -21,7 +21,7 @@ export const EditPage = () => {
     const { data, isLoading, isError } = useQuery<DBBook>({
         queryKey: ["getBookData", id],
         queryFn: () => getBookData(),
-        staleTime: 1000 * 10,
+        staleTime: 1000 * 600,
     });
     async function getBookData() {
         const { data: book } = await supabase
@@ -38,6 +38,7 @@ export const EditPage = () => {
         mutationFn: (book: DBBook) => updateBook(book),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["fetchReviews"] });
+            queryClient.invalidateQueries({ queryKey: ["getBook", id] });
             navigate("/");
         },
         onError: () => {
