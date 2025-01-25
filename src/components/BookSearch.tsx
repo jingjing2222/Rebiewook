@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import SearchedBooks from "@/components/SearchedBooks";
+import { useQuery } from "@tanstack/react-query";
 
 interface SearchedBook {
     authors: string[];
@@ -10,42 +11,38 @@ interface SearchedBook {
     url: string;
 }
 
+const fetchBooks = async (book: string) => {
+    const url = `https://dapi.kakao.com/v3/search/book?target=title&query=${book}`;
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_API_KEY}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+};
+
 export const BookSearch = ({
     onClick,
 }: {
     onClick: (book: SearchedBook) => void;
 }) => {
     const inputTitle = useRef("");
-    const [loading, setLoading] = useState(false);
-    const [searchedBooks, setSearchedBooks] = useState<SearchedBook[]>([]);
+    const [enabled, setEnabled] = useState(false);
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter") {
-            fetchBooks(inputTitle.current);
-        }
-    };
+    const { data, refetch } = useQuery({
+        queryKey: ["searchBook", inputTitle.current],
+        queryFn: () => fetchBooks(inputTitle.current),
+        select: (data) => data.documents,
+        enabled: enabled,
+        staleTime: 1000 * 1,
+    });
 
-    const fetchBooks = async (books: string) => {
-        setLoading(true);
-        const url = `https://dapi.kakao.com/v3/search/book?target=title&query=${books}`;
-
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_API_KEY}`,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data.documents);
-        setSearchedBooks(data.documents);
-        setLoading(false);
-        return data;
-    };
     return (
         <div className="space-y-4">
             <div className="flex space-x-2">
@@ -55,31 +52,40 @@ export const BookSearch = ({
                     onChange={(e) => {
                         inputTitle.current = e.currentTarget.value;
                     }}
-                    onKeyDown={handleKeyDown}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            if (!enabled) setEnabled(true);
+                            else refetch();
+                        }
+                    }}
                 />
-                <Button onClick={() => fetchBooks(inputTitle.current)}>
+                <Button
+                    onClick={() => {
+                        if (!enabled) setEnabled(true);
+                        else refetch();
+                    }}
+                >
                     Search
                 </Button>
             </div>
-            {!loading ? (
+            {data ? (
                 <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {searchedBooks.length > 0 ? (
-                        searchedBooks.map(
-                            (book: SearchedBook, index: number) => (
-                                <SearchedBooks
-                                    book={book}
-                                    onClick={onClick}
-                                    key={index}
-                                />
-                            )
-                        )
+                    {data.length > 0 ? (
+                        data.map((book: SearchedBook, index: number) => (
+                            <SearchedBooks
+                                book={book}
+                                onClick={onClick}
+                                key={index}
+                            />
+                        ))
                     ) : (
-                        <li>책 정보 없음</li>
+                        <li>Loading</li>
                     )}
                 </ul>
             ) : (
-                <div>Loading</div>
+                <div>검색해주세요</div>
             )}
+            <button onClick={() => console.log(data)}>버튼</button>
         </div>
     );
 };
