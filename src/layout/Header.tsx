@@ -53,7 +53,7 @@ export default function Header() {
     };
 
     return (
-        <header className="bg-[#8B4513] shadow-md wood-texture">
+        <header className="bg-[#8B4513] shadow-md wood-texture sticky">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 <Link to="/">
                     <img
@@ -66,7 +66,7 @@ export default function Header() {
                         onMouseLeave={() => setIsHovered(false)}
                     />
                 </Link>
-                <div className="text-xl md:text-3xl sm:text-2xl hidden sm:block">
+                <div className="text-sm md:text-2xl sm:text-lg hidden sm:block">
                     나는 생각한다, 나는 존재한다
                 </div>
                 <nav className="flex flex-col sm:flex-row items-center space-x-4">
