@@ -10,6 +10,7 @@ export interface DBBook {
     detailed_review: string;
     published_date: string;
     title: string;
+    markdown: boolean;
 }
 
 export const EditPage = () => {
