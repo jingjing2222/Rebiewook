@@ -27,7 +27,7 @@ export const BookReviewGrid = () => {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["fetchReviews"],
         queryFn: fetchReviews,
-        staleTime: 1000 * 10,
+        staleTime: 1000 * 60,
     });
 
     if (isLoading) {

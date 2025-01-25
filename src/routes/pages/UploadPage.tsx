@@ -1,5 +1,6 @@
 import UploadBasedForm from "@/components/UploadBasedForm";
 import { supabase } from "@/supabase/Client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 export interface DBBook {
@@ -13,6 +14,16 @@ export interface DBBook {
 
 export const UploadPage = () => {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const { mutate: insertBookMutation } = useMutation({
+        mutationKey: ["insertBook"],
+        mutationFn: (book: DBBook) => insertBook(book),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["fetchReviews"] });
+            navigate("/");
+        },
+    });
 
     async function insertBook(book: DBBook) {
         const { data, error } = await supabase
@@ -21,15 +32,13 @@ export const UploadPage = () => {
             .select();
         if (error) {
             console.error(error);
-        } else {
-            navigate("/");
-            console.log(data);
         }
+        return data;
     }
 
     return (
         <>
-            <UploadBasedForm onClick={insertBook} content="Upload" />
+            <UploadBasedForm onClick={insertBookMutation} content="Upload" />
         </>
     );
 };

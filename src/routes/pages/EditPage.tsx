@@ -1,6 +1,6 @@
 import UploadBasedForm from "@/components/UploadBasedForm";
 import { supabase } from "@/supabase/Client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
 
 export interface DBBook {
@@ -16,25 +16,13 @@ export interface DBBook {
 export const EditPage = () => {
     const { id } = useParams<string>();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const { data, isLoading, isError } = useQuery<DBBook>({
         queryKey: ["getBookData", id],
         queryFn: () => getBookData(),
         staleTime: 1000 * 10,
     });
-    async function updateBook(book: DBBook) {
-        getBookData();
-        const { data, error } = await supabase
-            .from("book")
-            .update(book)
-            .eq("id", id);
-        if (error) {
-            console.error(error);
-        } else {
-            navigate("/");
-            console.log(data);
-        }
-    }
     async function getBookData() {
         const { data: book } = await supabase
             .from("book")
@@ -45,13 +33,36 @@ export const EditPage = () => {
         return book;
     }
 
+    const { mutate: updateBookMutation } = useMutation({
+        mutationKey: ["updateBook"],
+        mutationFn: (book: DBBook) => updateBook(book),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["fetchReviews"] });
+            navigate("/");
+        },
+        onError: () => {
+            console.log("실패했습니다!");
+        },
+    });
+    async function updateBook(book: DBBook) {
+        getBookData();
+        const { data, error } = await supabase
+            .from("book")
+            .update(book)
+            .eq("id", id);
+        if (error) {
+            throw new Error(error.message);
+        }
+        return data;
+    }
+
     if (isLoading) return <div>Loading</div>;
     if (isError) return <div>Error</div>;
     if (data)
         return (
             <>
                 <UploadBasedForm
-                    onClick={updateBook}
+                    onClick={updateBookMutation}
                     content="Edit"
                     defaultValue={data}
                 />

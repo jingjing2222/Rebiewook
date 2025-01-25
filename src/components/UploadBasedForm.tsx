@@ -29,7 +29,7 @@ export default function UploadBasedForm({
     content,
     defaultValue,
 }: {
-    onClick: (book: DBBook) => Promise<void>;
+    onClick: (book: DBBook) => void;
     content: string;
     getBookData?: () => void;
     defaultValue?: DBBook;
