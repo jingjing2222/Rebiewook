@@ -57,9 +57,9 @@ export default function Header() {
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 <Link to="/">
                     <img
-                        src="https://blogpfthumb-phinf.pstatic.net/MjAyNDEwMDdfMjMx/MDAxNzI4MjYzMTA0NzUw.FbYh7XyvweyOmyPdrRwVS7vNFcFFWpiLEULuMYoYCjwg.MV-ux-a41it77d4-HZaZp_7qdqWL5EZ29M8bqnwNH6Yg.JPEG/profileImage.jpg?type=w161"
+                        src="https://i.ibb.co/7Ry0jpw/001-2.png"
                         alt="My Personal Book Report"
-                        className={`opacity-100 cursor-pointer bg-[#F4A460] rounded transition-all w-40 h-40${
+                        className={`opacity-100 cursor-pointer rounded transition-all w-28 h-auto md:w-40 md:h-auto${
                             isHovered ? "opacity-80" : ""
                         }`}
                         onMouseEnter={() => setIsHovered(true)}
