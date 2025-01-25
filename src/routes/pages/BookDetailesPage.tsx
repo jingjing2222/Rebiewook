@@ -1,58 +1,39 @@
 import { BookDetails } from "@/components/BookDetailes";
 import { supabase } from "@/supabase/Client";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import camelcaseKeys from "camelcase-keys";
-
-interface Review {
-    author: string;
-    coverImage: string;
-    description: string;
-    detailedReview: string;
-    id: number;
-    publishedDate: string;
-    title: string;
-    markdown: boolean;
-}
+import { useQuery } from "@tanstack/react-query";
 
 export default function BookDetailsPage() {
     const { id } = useParams<string>();
-    const [book, setBook] = useState<Review>();
-    const [loading, setLoading] = useState(false);
 
     async function getBook() {
-        setLoading(true);
-        const { data: specificBook, error } = await supabase
+        const { data: specificBook } = await supabase
             .from("book")
             .select("*")
             .eq("id", id)
             .single();
 
-        if (error || !specificBook) {
-            setLoading(false);
-            console.error(error);
-            return;
-        }
-
-        setLoading(false);
-
-        const camelBook = camelcaseKeys(specificBook);
-        setBook(camelBook);
+        return specificBook;
     }
 
-    useEffect(() => {
-        getBook();
-    }, [id]);
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["getBook", id],
+        queryFn: getBook,
+        staleTime: 1000 * 10,
+        select: (data) => camelcaseKeys(data),
+    });
 
-    if (loading) return <div>Loading...</div>;
+    if (isLoading) return <div>Loading...</div>;
 
-    if (!book) {
+    if (isError) {
         return <div>Book not found</div>;
     }
-
-    return (
-        <div className="container mx-auto px-4 py-8">
-            <BookDetails {...book} />
-        </div>
-    );
+    if (data) {
+        return (
+            <div className="container mx-auto px-4 py-8">
+                <BookDetails {...data} />
+            </div>
+        );
+    }
 }

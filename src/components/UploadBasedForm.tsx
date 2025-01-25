@@ -14,7 +14,7 @@ interface SearchedBook {
     url: string;
 }
 
-export interface DBBook {
+interface DBBook {
     author: string;
     cover_image: string;
     description: string;

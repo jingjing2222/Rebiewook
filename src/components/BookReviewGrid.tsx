@@ -13,16 +13,17 @@ interface Review {
     title: string;
 }
 
+const fetchReviews = async () => {
+    const { data: book } = await supabase
+        .from("book")
+        .select("*")
+        .order("published_date", { ascending: false });
+
+    return book;
+};
+
 export const BookReviewGrid = () => {
-    const fetchReviews = async () => {
-        const { data: book } = await supabase
-            .from("book")
-            .select("*")
-            .order("published_date", { ascending: false });
-
-        return book;
-    };
-
+    //알아서 타입을 추론하므로 타입을 명시하지 않음
     const { data, isLoading, isError } = useQuery({
         queryKey: ["fetchReviews"],
         queryFn: fetchReviews,
