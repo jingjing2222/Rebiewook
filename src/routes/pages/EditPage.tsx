@@ -1,6 +1,6 @@
 import UploadBasedForm from "@/components/UploadBasedForm";
 import { supabase } from "@/supabase/Client";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
 
 export interface DBBook {
@@ -14,12 +14,14 @@ export interface DBBook {
 }
 
 export const EditPage = () => {
-    const [defaultValue, setDefalutValue] = useState<DBBook | undefined>(
-        undefined
-    );
     const { id } = useParams<string>();
     const navigate = useNavigate();
 
+    const { data, isLoading, isError } = useQuery<DBBook>({
+        queryKey: ["getBookData", id],
+        queryFn: () => getBookData(),
+        staleTime: 1000 * 10,
+    });
     async function updateBook(book: DBBook) {
         getBookData();
         const { data, error } = await supabase
@@ -34,26 +36,25 @@ export const EditPage = () => {
         }
     }
     async function getBookData() {
-        const { data: book, error } = await supabase
+        const { data: book } = await supabase
             .from("book")
             .select("*")
             .eq("id", id)
             .single();
 
-        if (error) console.error(error);
-        else setDefalutValue(book);
+        return book;
     }
-    useEffect(() => {
-        getBookData();
-    }, []);
 
-    return (
-        <>
-            <UploadBasedForm
-                onClick={updateBook}
-                content="Edit"
-                defaultValue={defaultValue}
-            />
-        </>
-    );
+    if (isLoading) return <div>Loading</div>;
+    if (isError) return <div>Error</div>;
+    if (data)
+        return (
+            <>
+                <UploadBasedForm
+                    onClick={updateBook}
+                    content="Edit"
+                    defaultValue={data}
+                />
+            </>
+        );
 };
