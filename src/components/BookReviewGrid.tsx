@@ -15,15 +15,11 @@ interface Review {
 
 export const BookReviewGrid = () => {
     const fetchReviews = async () => {
-        const { data: book, error } = await supabase
+        const { data: book } = await supabase
             .from("book")
             .select("*")
             .order("published_date", { ascending: false });
 
-        if (error || !book) {
-            console.error(error);
-            return;
-        }
         return book;
     };
 
