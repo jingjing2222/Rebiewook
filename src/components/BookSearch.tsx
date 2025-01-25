@@ -35,13 +35,34 @@ export const BookSearch = ({
     const inputTitle = useRef("");
     const [enabled, setEnabled] = useState(false);
 
-    const { data, refetch } = useQuery({
+    const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["searchBook", inputTitle.current],
         queryFn: () => fetchBooks(inputTitle.current),
         select: (data) => data.documents,
         enabled: enabled,
-        staleTime: 1000 * 1,
+        staleTime: 1000 * 5,
     });
+
+    const PrintSearchedBooks = () => {
+        if (enabled) {
+            if (isLoading) return <li>Loading</li>;
+            if (isError) return <div>{isError}</div>;
+            if (data)
+                if (data.length > 0) {
+                    return (
+                        <ul className="space-y-2 max-h-60 overflow-y-auto">
+                            {data.map((book: SearchedBook, index: number) => (
+                                <SearchedBooks
+                                    book={book}
+                                    onClick={onClick}
+                                    key={index}
+                                />
+                            ))}
+                        </ul>
+                    );
+                } else return <div>검색 결과가 없습니다.</div>;
+        } else return <div>검색해주세요</div>;
+    };
 
     return (
         <div className="space-y-4">
@@ -68,24 +89,7 @@ export const BookSearch = ({
                     Search
                 </Button>
             </div>
-            {data ? (
-                <ul className="space-y-2 max-h-60 overflow-y-auto">
-                    {data.length > 0 ? (
-                        data.map((book: SearchedBook, index: number) => (
-                            <SearchedBooks
-                                book={book}
-                                onClick={onClick}
-                                key={index}
-                            />
-                        ))
-                    ) : (
-                        <li>Loading</li>
-                    )}
-                </ul>
-            ) : (
-                <div>검색해주세요</div>
-            )}
-            <button onClick={() => console.log(data)}>버튼</button>
+            <PrintSearchedBooks />
         </div>
     );
 };
