@@ -53,7 +53,6 @@ export const BookSearch = ({
         //파라미터를 잘 보자, 필요한거 다 있떠라, 바보 멍청아
         getNextPageParam: (l, allPages, lastPageParam) => {
             const isEnd = allPages[lastPageParam - 1].meta.is_end;
-            console.log(lastPageParam);
             if (isEnd) return null;
             return allPages.length + 1;
         },
@@ -69,14 +68,6 @@ export const BookSearch = ({
                 if (data.pages.length > 0) {
                     return (
                         <React.Fragment>
-                            <button
-                                onClick={() => {
-                                    // console.log(data.pages);
-                                    // console.log(data.pages);
-                                }}
-                            >
-                                데이터
-                            </button>
                             <ul className="space-y-2 max-h-60 overflow-y-auto">
                                 {data.pages.map((book) =>
                                     book.documents.map(
