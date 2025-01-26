@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
-import SearchedBooks from "@/components/SearchedBooks";
+import SearchedBooks from "@/components/UploadForm/SearchedBooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 
@@ -60,6 +60,11 @@ export const BookSearch = ({
         staleTime: 1000 * 5,
     });
 
+    const fetch = () => {
+        if (!enabled) setEnabled(true);
+        else refetch();
+    };
+
     const PrintSearchedBooks = () => {
         if (enabled) {
             if (isLoading) return <li>Loading</li>;
@@ -112,20 +117,10 @@ export const BookSearch = ({
                         inputTitle.current = e.currentTarget.value;
                     }}
                     onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                            if (!enabled) setEnabled(true);
-                            else refetch();
-                        }
+                        if (e.key === "Enter") fetch();
                     }}
                 />
-                <Button
-                    onClick={() => {
-                        if (!enabled) setEnabled(true);
-                        else refetch();
-                    }}
-                >
-                    Search
-                </Button>
+                <Button onClick={fetch}>Search</Button>
             </div>
             <PrintSearchedBooks />
         </div>

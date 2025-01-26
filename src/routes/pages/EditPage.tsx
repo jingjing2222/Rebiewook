@@ -1,4 +1,4 @@
-import UploadBasedForm from "@/components/UploadBasedForm";
+import UploadBasedForm from "@/components/UploadForm/UploadBasedForm";
 import { supabase } from "@/supabase/Client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";

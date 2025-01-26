@@ -3,10 +3,7 @@ import BookDetailesPage from "@/routes/pages/BookDetailesPage";
 import { EditPage } from "@/routes/pages/EditPage";
 import Home from "@/routes/pages/Home";
 import { UploadPage } from "@/routes/pages/UploadPage";
-
 import { createBrowserRouter, RouterProvider } from "react-router";
-
-//            <ModalProvider />
 
 const router = createBrowserRouter([
     {

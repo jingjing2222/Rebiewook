@@ -1,4 +1,4 @@
-import { BookDetails } from "@/components/BookDetailes";
+import { BookDetails } from "@/components/BookDetailes/BookDetailes";
 import { supabase } from "@/supabase/Client";
 import { useParams } from "react-router";
 import camelcaseKeys from "camelcase-keys";

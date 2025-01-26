@@ -1,4 +1,4 @@
-import { BookSearch } from "@/components/BookSearch";
+import { BookSearch } from "@/components/UploadForm/BookSearch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
