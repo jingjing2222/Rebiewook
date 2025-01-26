@@ -28,6 +28,8 @@
 
 <a><img src="https://i.ibb.co/sqcJYzP/2025-01-26-5-39-32.png" alt="2025-01-26-5-39-32"></a>
 
+<a><img src="https://i.ibb.co/0qMQ6tP/2025-01-26-5-21-18.png" alt="2025-01-26-5-21-18" ></a>
+
 ## 반응형 CSS (tailwindcss)
 
 ![Image](https://github.com/user-attachments/assets/4c237792-67bd-4367-ba70-e32b3e79cd88)
