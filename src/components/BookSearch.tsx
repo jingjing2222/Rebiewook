@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import SearchedBooks from "@/components/SearchedBooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import React from "react";
 
 interface SearchedBook {
     authors: string[];
@@ -12,7 +13,7 @@ interface SearchedBook {
 }
 
 const fetchBooks = async (book: string, pageParam: number) => {
-    const url = `https://dapi.kakao.com/v3/search/book?target=title&query=${book}&page=${pageParam}`;
+    const url = `https://dapi.kakao.com/v3/search/book?target=title&query=${book}&page=${pageParam}&size=50`;
 
     const response = await fetch(url, {
         method: "GET",
@@ -35,42 +36,76 @@ export const BookSearch = ({
     const inputTitle = useRef("");
     const [enabled, setEnabled] = useState(false);
 
-    const { data, isLoading, isError, refetch, fetchNextPage } =
-        useInfiniteQuery({
-            queryKey: ["searchBook", inputTitle.current],
-            queryFn: ({ pageParam }) => {
-                return fetchBooks(inputTitle.current, pageParam);
-            },
-            initialPageParam: 1,
-            getNextPageParam: (lastPageParam) => lastPageParam.length + 1,
-            getPreviousPageParam: (lastPageParams) => lastPageParams.length - 1,
-            enabled: enabled,
-            staleTime: 1000 * 5,
-        });
+    const {
+        data,
+        isLoading,
+        isError,
+        refetch,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
+        queryKey: ["searchBook", inputTitle.current],
+        queryFn: ({ pageParam }) => {
+            return fetchBooks(inputTitle.current, pageParam);
+        },
+        initialPageParam: 1,
+        //파라미터를 잘 보자, 필요한거 다 있떠라, 바보 멍청아
+        getNextPageParam: (l, allPages, lastPageParam) => {
+            const isEnd = allPages[lastPageParam - 1].meta.is_end;
+            console.log(lastPageParam);
+            if (isEnd) return null;
+            return allPages.length + 1;
+        },
+        enabled: enabled,
+        staleTime: 1000 * 5,
+    });
 
     const PrintSearchedBooks = () => {
         if (enabled) {
             if (isLoading) return <li>Loading</li>;
-            if (isError) return <div>{`${isError} 이건가?`}</div>;
+            if (isError) return <div>{`${isError}`}</div>;
             if (data)
                 if (data.pages.length > 0) {
                     return (
-                        <ul className="space-y-2 max-h-60 overflow-y-auto">
-                            {data.pages.map((book) =>
-                                book.documents.map(
-                                    (bookInfo: SearchedBook, index: number) => (
-                                        <SearchedBooks
-                                            book={bookInfo}
-                                            onClick={onClick}
-                                            key={index}
-                                        />
-                                    )
-                                )
-                            )}
-                            <button onClick={() => fetchNextPage()}>
-                                다음 페이지
+                        <React.Fragment>
+                            <button
+                                onClick={() => {
+                                    // console.log(data.pages);
+                                    // console.log(data.pages);
+                                }}
+                            >
+                                데이터
                             </button>
-                        </ul>
+                            <ul className="space-y-2 max-h-60 overflow-y-auto">
+                                {data.pages.map((book) =>
+                                    book.documents.map(
+                                        (
+                                            bookInfo: SearchedBook,
+                                            index: number
+                                        ) => (
+                                            <SearchedBooks
+                                                book={bookInfo}
+                                                onClick={onClick}
+                                                key={index}
+                                            />
+                                        )
+                                    )
+                                )}
+                                <button
+                                    onClick={() => fetchNextPage()}
+                                    disabled={
+                                        !hasNextPage || isFetchingNextPage
+                                    }
+                                >
+                                    {isFetchingNextPage
+                                        ? "Loading more..."
+                                        : hasNextPage
+                                          ? "Load More"
+                                          : "Nothing more to load"}
+                                </button>
+                            </ul>
+                        </React.Fragment>
                     );
                 } else return <div>검색 결과가 없습니다.</div>;
         } else return <div>검색해주세요</div>;
