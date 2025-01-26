@@ -24,9 +24,9 @@
 
 ## Upload & Delete
 
-<a><img src="https://i.ibb.co/rQCYtYk/2025-01-26-5-18-51.png" alt="2025-01-26-5-18-51" ></a>
+<a><img src="https://i.ibb.co/vshJTSV/2025-01-26-5-39-28.png" alt="2025-01-26-5-39-28" ></a>
 
-<a><img src="https://i.ibb.co/0qMQ6tP/2025-01-26-5-21-18.png" alt="2025-01-26-5-21-18" ></a>
+<a><img src="https://i.ibb.co/sqcJYzP/2025-01-26-5-39-32.png" alt="2025-01-26-5-39-32"></a>
 
 ## 반응형 CSS (tailwindcss)
 
