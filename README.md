@@ -25,6 +25,8 @@
 
 ## 반응형 CSS (tailwindcss)
 
+![Image](https://github.com/user-attachments/assets/4c237792-67bd-4367-ba70-e32b3e79cd88)
+
 ## 📌 기술 스택 (Tech Stack)
 
 ### 🏗️ 프레임워크 & 라이브러리
