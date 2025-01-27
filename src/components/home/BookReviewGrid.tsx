@@ -24,29 +24,29 @@ const fetchReviews = async () => {
 
 export const BookReviewGrid = () => {
     //알아서 타입을 추론하므로 타입을 명시하지 않음
-    const { data, isLoading, isError } = useQuery({
+    const { status, data } = useQuery({
         queryKey: ["fetchReviews"],
         queryFn: fetchReviews,
         staleTime: 1000 * 60,
     });
 
-    if (isLoading) {
-        return <div>loading...</div>;
-    }
-    if (isError) {
-        return <div>Error fetching data</div>;
-    }
-    if (data) {
-        return (
-            <>
-                <div className="bookshelf">
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                        {camelcaseKeys(data).map((review: Review) => (
-                            <BookCard key={review.id} review={review} />
-                        ))}
+    return (
+        <>
+            {status === "pending" ? (
+                <div>loading...</div>
+            ) : status === "error" ? (
+                <div>Error fetching data</div>
+            ) : (
+                <>
+                    <div className="bookshelf">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                            {camelcaseKeys(data!).map((review: Review) => (
+                                <BookCard key={review.id} review={review} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </>
-        );
-    }
+                </>
+            )}
+        </>
+    );
 };
