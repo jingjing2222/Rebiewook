@@ -4,7 +4,7 @@
 
 # 제작 기간
 
-2025.01.20. ~ 2025. 01.26.
+2025.01.20. ~ 2025. 01.27.
 
 # 주요 기능
 
@@ -15,6 +15,12 @@
 ### react-query(useMutation, useInfiniteQuery)
 
 <a><img src="https://i.ibb.co/7JCxTzp/2025-01-26-5-11-55.png" alt="2025-01-26-5-11-55" ></a>
+
+#### 무한 스크롤 & Virtual Scroll
+
+![Image](https://github.com/user-attachments/assets/c020f017-534f-46a0-87c2-e8743c98966f)
+
+- Viewport상 8개만 렌더링 후, 49번째 도서까지 스크롤시, 다음 도서 List Fetch후 List에 추가
 
 ## Read
 
