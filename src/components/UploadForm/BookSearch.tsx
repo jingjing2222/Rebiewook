@@ -71,7 +71,6 @@ export const BookSearch = ({
 
     useEffect(() => {
         const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-
         if (!lastItem) {
             return;
         }
