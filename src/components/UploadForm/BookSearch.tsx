@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchedBooks from "@/components/UploadForm/SearchedBooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface SearchedBook {
     authors: string[];
@@ -35,11 +35,11 @@ export const BookSearch = ({
 }) => {
     const inputTitle = useRef("");
     const [enabled, setEnabled] = useState(false);
+    console.log("book search: re-rendered");
 
     const {
+        status,
         data,
-        isLoading,
-        isError,
         refetch,
         fetchNextPage,
         hasNextPage,
@@ -51,60 +51,50 @@ export const BookSearch = ({
         },
         initialPageParam: 1,
         //파라미터를 잘 보자, 필요한거 다 있떠라, 바보 멍청아
-        getNextPageParam: (l, allPages, lastPageParam) => {
-            const isEnd = allPages[lastPageParam - 1].meta.is_end;
+        getNextPageParam: (lastPage, allPages) => {
+            // lastPage가 직전 페이징의 결과(=마지막으로 fetch된 데이터)
+            // allPages가 지금까지 fetch된 모든 데이터를 배열로 담고 있음
+            const isEnd = lastPage.meta.is_end;
             if (isEnd) return null;
             return allPages.length + 1;
         },
         enabled: enabled,
         staleTime: 1000 * 5,
     });
+    const allRows = data ? data.pages.flatMap((d) => d.documents) : [];
+    const parentRef = useRef(null);
+
+    const rowVirtualizer = useVirtualizer({
+        count: 51,
+        getScrollElement: () => parentRef.current,
+        estimateSize: () => 128,
+    });
+
+    useEffect(() => {
+        const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
+
+        if (!lastItem) {
+            return;
+        }
+
+        if (
+            lastItem.index >= allRows.length - 1 &&
+            hasNextPage &&
+            !isFetchingNextPage
+        ) {
+            fetchNextPage();
+        }
+    }, [
+        hasNextPage,
+        fetchNextPage,
+        allRows.length,
+        isFetchingNextPage,
+        rowVirtualizer,
+    ]);
 
     const fetch = () => {
         if (!enabled) setEnabled(true);
         else refetch();
-    };
-
-    const PrintSearchedBooks = () => {
-        if (enabled) {
-            if (isLoading) return <li>Loading</li>;
-            if (isError) return <div>{`${isError}`}</div>;
-            if (data)
-                if (data.pages.length > 0) {
-                    return (
-                        <React.Fragment>
-                            <ul className="space-y-2 max-h-60 overflow-y-auto">
-                                {data.pages.map((book) =>
-                                    book.documents.map(
-                                        (
-                                            bookInfo: SearchedBook,
-                                            index: number
-                                        ) => (
-                                            <SearchedBooks
-                                                book={bookInfo}
-                                                onClick={onClick}
-                                                key={index}
-                                            />
-                                        )
-                                    )
-                                )}
-                                <button
-                                    onClick={() => fetchNextPage()}
-                                    disabled={
-                                        !hasNextPage || isFetchingNextPage
-                                    }
-                                >
-                                    {isFetchingNextPage
-                                        ? "Loading more..."
-                                        : hasNextPage
-                                          ? "Load More"
-                                          : "Nothing more to load"}
-                                </button>
-                            </ul>
-                        </React.Fragment>
-                    );
-                } else return <div>검색 결과가 없습니다.</div>;
-        } else return <div>검색해주세요</div>;
     };
 
     return (
@@ -122,7 +112,37 @@ export const BookSearch = ({
                 />
                 <Button onClick={fetch}>Search</Button>
             </div>
-            <PrintSearchedBooks />
+            <div
+                ref={parentRef}
+                style={{
+                    height: `200px`,
+                    width: `100%`,
+                    overflow: "auto",
+                }}
+            >
+                {status === "pending" ? (
+                    <li>Loading</li>
+                ) : status === "error" ? (
+                    <div>{`error`}</div>
+                ) : (
+                    <ul
+                        style={{
+                            height: `${rowVirtualizer.getTotalSize()}px`,
+                            width: "100%",
+                            position: "relative",
+                        }}
+                    >
+                        {rowVirtualizer.getVirtualItems().map((virtualRow) => (
+                            <SearchedBooks
+                                key={virtualRow.index}
+                                book={allRows[virtualRow.index]}
+                                onClick={onClick}
+                                virtual={virtualRow}
+                            />
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };
