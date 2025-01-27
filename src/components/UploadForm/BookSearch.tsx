@@ -35,7 +35,6 @@ export const BookSearch = ({
 }) => {
     const inputTitle = useRef("");
     const [enabled, setEnabled] = useState(false);
-    console.log("book search: re-rendered");
 
     const {
         status,
@@ -65,7 +64,7 @@ export const BookSearch = ({
     const parentRef = useRef(null);
 
     const rowVirtualizer = useVirtualizer({
-        count: 51,
+        count: allRows.length,
         getScrollElement: () => parentRef.current,
         estimateSize: () => 128,
     });
@@ -89,14 +88,13 @@ export const BookSearch = ({
         fetchNextPage,
         allRows.length,
         isFetchingNextPage,
-        rowVirtualizer,
+        rowVirtualizer.getVirtualItems(),
     ]);
 
     const fetch = () => {
         if (!enabled) setEnabled(true);
         else refetch();
     };
-
     return (
         <div className="space-y-4">
             <div className="flex space-x-2">
@@ -132,14 +130,16 @@ export const BookSearch = ({
                             position: "relative",
                         }}
                     >
-                        {rowVirtualizer.getVirtualItems().map((virtualRow) => (
-                            <SearchedBooks
-                                key={virtualRow.index}
-                                book={allRows[virtualRow.index]}
-                                onClick={onClick}
-                                virtual={virtualRow}
-                            />
-                        ))}
+                        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                            return (
+                                <SearchedBooks
+                                    key={virtualRow.index}
+                                    book={allRows[virtualRow.index]}
+                                    onClick={onClick}
+                                    virtualStart={virtualRow.start}
+                                />
+                            );
+                        })}
                     </ul>
                 )}
             </div>

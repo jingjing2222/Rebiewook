@@ -7,22 +7,22 @@ interface SearchedBook {
 interface SearchedBookProps {
     onClick: (book: SearchedBook) => void;
     book: SearchedBook;
-    virtual?;
+    virtualStart: number;
 }
 
 export default function SearchedBooks({
     onClick,
     book,
-    virtual,
+    virtualStart,
 }: SearchedBookProps) {
     return (
         <li
             className="h-32 absolute w-full"
-            style={{ transform: `translateY(${virtual.start}px)` }}
+            style={{ transform: `translateY(${virtualStart}px)` }}
             onClick={() => onClick(book)}
         >
             <div className="flex items-center p-4 bg-[#F4A460] bg-opacity-20 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:bg-opacity-30 cursor-pointer wood-texture">
-                <div className="flex-shrink-0 w-16 h-24 mr-4 overflow-hidden rounded-md shadow-sm">
+                <div className="flex-shrink-0 w-16 -24 mr-4 overflow-hidden rounded-md shadow-sm">
                     {book.thumbnail ? (
                         <img
                             className="w-full h-full object-cover"
