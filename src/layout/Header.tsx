@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
-import { ModalContext } from "@/components/Modal/ModalContext";
+import { ModalContext } from "@/Modal/ModalContext";
 
 export default function Header() {
     const [cookies, , removeCookie] = useCookies(["username"]);

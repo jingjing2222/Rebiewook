@@ -2,7 +2,7 @@ import Header from "@/layout/Header";
 import "@/main.css";
 import Footer from "@/layout/Footer";
 import { Outlet } from "react-router";
-import { ModalProvider } from "@/components/Modal/ModalContext";
+import { ModalProvider } from "@/Modal/ModalContext";
 
 export default function Layout() {
     return (
