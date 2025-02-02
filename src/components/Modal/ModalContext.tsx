@@ -6,8 +6,8 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { createPortal } from "react-dom";
-import { LoginModal } from "@/Modal/LoginModal";
-import DeleteModal from "@/Modal/DeleteModal";
+import { LoginModal } from "@/components/Modal/LoginModal";
+import DeleteModal from "@/components/Modal/DeleteModal";
 
 interface ModalContextProps {
     openModal: () => void;

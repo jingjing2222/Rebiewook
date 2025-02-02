@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
-import { ModalContext } from "@/Modal/ModalContext";
+import { ModalContext } from "@/components/Modal/ModalContext";
 import { format } from "date-fns";
 import { useContext } from "react";
 import { useCookies } from "react-cookie";

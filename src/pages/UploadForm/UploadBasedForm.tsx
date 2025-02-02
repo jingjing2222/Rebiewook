@@ -28,11 +28,13 @@ export default function UploadBasedForm({
     onClick,
     content,
     defaultValue,
+    status,
 }: {
     onClick: (book: DBBook) => void;
     content: string;
     getBookData?: () => void;
     defaultValue?: DBBook;
+    status: string;
 }) {
     const [selectedBook, setSelectedBook] = useState<SearchedBook | undefined>(
         undefined
@@ -143,13 +145,17 @@ export default function UploadBasedForm({
                         />
                     )}
                 </div>
-                <Button
-                    type="submit"
-                    className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
-                    onClick={() => setValue("markdown", editerChoice)}
-                >
-                    {`${content} Book!`}
-                </Button>
+                {status === "pending" ? (
+                    <div>Uploading..</div>
+                ) : (
+                    <Button
+                        type="submit"
+                        className="w-full bg-[#8B4513] hover:bg-[#A0522D] text-white"
+                        onClick={() => setValue("markdown", editerChoice)}
+                    >
+                        {`${content} Book!`}
+                    </Button>
+                )}
             </form>
         </div>
     );

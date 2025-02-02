@@ -33,7 +33,7 @@ export const EditPage = () => {
         return book;
     }
 
-    const { mutate: updateBookMutation } = useMutation({
+    const { status, mutate: updateBookMutation } = useMutation({
         mutationKey: ["updateBook"],
         mutationFn: (book: DBBook) => updateBook(book),
         onSuccess: () => {
@@ -66,6 +66,7 @@ export const EditPage = () => {
                     onClick={updateBookMutation}
                     content="Edit"
                     defaultValue={data}
+                    status={status}
                 />
             </>
         );

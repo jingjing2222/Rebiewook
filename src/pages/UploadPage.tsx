@@ -16,7 +16,7 @@ export const UploadPage = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const { mutate: insertBookMutation } = useMutation({
+    const { status, mutate: insertBookMutation } = useMutation({
         mutationKey: ["insertBook"],
         mutationFn: (book: DBBook) => insertBook(book),
         onSuccess: () => {
@@ -38,7 +38,11 @@ export const UploadPage = () => {
 
     return (
         <>
-            <UploadBasedForm onClick={insertBookMutation} content="Upload" />
+            <UploadBasedForm
+                onClick={insertBookMutation}
+                content="Upload"
+                status={status}
+            />
         </>
     );
 };
