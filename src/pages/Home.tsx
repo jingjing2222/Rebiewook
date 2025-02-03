@@ -2,6 +2,7 @@ import { BookCard } from "@/pages/home/BookCard";
 import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
 import camelcaseKeys from "camelcase-keys";
+import { motion } from "framer-motion";
 
 interface Review {
     author: string;
@@ -31,9 +32,17 @@ export default function Home() {
     return (
         <>
             <div className="container mx-auto px-4 py-4 md:py-6">
-                <h1 className="text-xl md:text-2xl font-bold mb-4 text-center text-[#4B3621] shadow-text">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0.1 },
+                    }}
+                    className="text-xl md:text-2xl font-bold mb-4 text-center text-[#4B3621] shadow-text"
+                >
                     최근 독후감
-                </h1>
+                </motion.div>
                 {status === "pending" ? (
                     <div>loading...</div>
                 ) : status === "error" ? (
