@@ -8,6 +8,7 @@ import {
 import { createPortal } from "react-dom";
 import { LoginModal } from "@/components/Modal/LoginModal";
 import DeleteModal from "@/components/Modal/DeleteModal";
+import { SignupModal } from "@/components/Modal/SignupModal";
 
 interface ModalContextProps {
     openModal: () => void;
@@ -47,6 +48,12 @@ const reducer = (modalType: ModalType, action: ActionType) => {
                 content: "Delete 내용",
                 type: "DELETE",
                 id: action.id,
+            };
+        case "SIGNUP":
+            return {
+                title: "회원가입",
+                content: "Default 내용",
+                type: "DEFAULT",
             };
         case "DEFAULT":
         default:
@@ -99,6 +106,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
                                 closeModal={closeModal}
                                 id={modalType.id}
                             />
+                        )}
+                        {modalType.type === "SIGNUP" && (
+                            <SignupModal closeModal={closeModal} />
                         )}
                     </DialogContent>
                 </Dialog>,

@@ -38,15 +38,26 @@ export default function Header() {
                         Logout
                     </Button>
                 ) : (
-                    <Button
-                        className="bg-[#D2691E] hover:bg-[#A0522D]"
-                        onClick={() => {
-                            openModal();
-                            setModal("login");
-                        }}
-                    >
-                        Login
-                    </Button>
+                    <>
+                        <Button
+                            className="bg-[#D2691E] hover:bg-[#A0522D]"
+                            onClick={() => {
+                                openModal();
+                                setModal("login");
+                            }}
+                        >
+                            Login
+                        </Button>
+                        <Button
+                            className="bg-[#D2691E] hover:bg-[#A0522D]"
+                            onClick={() => {
+                                openModal();
+                                setModal("signup");
+                            }}
+                        >
+                            Login
+                        </Button>
+                    </>
                 )}
             </>
         );
