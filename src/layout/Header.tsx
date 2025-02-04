@@ -55,7 +55,7 @@ export default function Header() {
                                 setModal("signup");
                             }}
                         >
-                            Login
+                            Signup
                         </Button>
                     </>
                 )}

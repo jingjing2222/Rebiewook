@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@hookform/error-message": "^2.0.1",
     "@tanstack/eslint-plugin-query": "^5.64.2",
     "@tanstack/react-query-devtools": "^5.64.2",
     "@tanstack/react-virtual": "^3.11.2",

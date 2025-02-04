@@ -53,7 +53,7 @@ const reducer = (modalType: ModalType, action: ActionType) => {
             return {
                 title: "회원가입",
                 content: "Default 내용",
-                type: "DEFAULT",
+                type: "SIGNUP",
             };
         case "DEFAULT":
         default:
