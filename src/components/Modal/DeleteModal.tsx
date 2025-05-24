@@ -19,7 +19,7 @@ export default function DeleteModal({
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["fetchReviews"] });
-            navigate("/");
+            navigate("/reviewlistpage");
             closeModal();
         },
     });
