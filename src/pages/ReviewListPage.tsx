@@ -2,7 +2,7 @@ import { BookCard } from "@/pages/home/BookCard";
 import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router";
 import { SelectBox } from "@/components/SelectBox";
 
@@ -45,10 +45,6 @@ export default function ReviewListPage() {
     staleTime: 1000 * 20,
   });
 
-  useMemo(() => {
-    console.log(data);
-  }, [data]);
-
   const handleSelectChange = (value: string) => {
     setOrder(value);
     setSearchParams({ page: "0" });
@@ -67,7 +63,7 @@ export default function ReviewListPage() {
   return (
     <div className="container mx-auto px-4 py-4 md:py-6">
       {/* Header Section with Title and SelectBox */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <div className="flex justify-between items-start sm:items-center gap-4 mb-8">
         <div className="flex-1">
           <h1 className="text-3xl md:text-4xl font-bold text-[#4B3621] mb-2">
             김형정 독후감
@@ -99,7 +95,7 @@ export default function ReviewListPage() {
             <div className="relative z-10">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 {status === "pending"
-                  ? Array.from({ length: 5 }, (_, index) => (
+                  ? Array.from({ length: 10 }, (_, index) => (
                       <Skeleton
                         key={index}
                         className="w-full h-96 rounded-2xl"
