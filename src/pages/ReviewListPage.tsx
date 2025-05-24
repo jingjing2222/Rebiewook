@@ -2,7 +2,7 @@ import { BookCard } from "@/pages/home/BookCard";
 import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { SelectBox } from "@/components/SelectBox";
 
@@ -24,12 +24,21 @@ const selectList = [
 const fetchReviews = async (page = 0, order = "published_date") => {
   const startIndex = page * 10;
   const endIndex = startIndex + 9;
-  const data = await supabase
-    .from("book")
-    .select("*")
-    .order(order, { ascending: false })
-    .range(startIndex, endIndex);
-  return data;
+
+  if (order === "title") {
+    const data = await supabase.rpc("get_books_by_title", {
+      page_offset: startIndex,
+      page_limit: 10,
+    });
+    return data;
+  } else {
+    const data = await supabase
+      .from("book")
+      .select("*")
+      .order(order, { ascending: false })
+      .range(startIndex, endIndex);
+    return data;
+  }
 };
 
 export default function ReviewListPage() {
@@ -44,6 +53,10 @@ export default function ReviewListPage() {
     },
     staleTime: 1000 * 20,
   });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   const handleSelectChange = (value: string) => {
     setOrder(value);
