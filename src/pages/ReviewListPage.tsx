@@ -1,35 +1,50 @@
 import { BookCard } from "@/pages/home/BookCard";
 import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
-import camelcaseKeys from "camelcase-keys";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMemo, useState } from "react";
 
-interface Review {
+export interface ReviewListDTO {
   author: string;
-  coverImage: string;
+  cover_image: string;
   description: string;
-  detailedReview: string;
+  detailed_review: string;
   id: number;
-  publishedDate: string;
+  published_date: string;
   title: string;
 }
 
-const fetchReviews = async () => {
-  const { data: book } = await supabase
+const fetchReviews = async (page = 0) => {
+  const startIndex = page * 10;
+  const endIndex = startIndex + 9;
+
+  const data = await supabase
     .from("book")
     .select("*")
-    .order("published_date", { ascending: false });
-
-  return book;
+    .order("published_date", { ascending: false })
+    .range(startIndex, endIndex);
+  return data;
 };
 
 export default function ReviewListPage() {
+  const [page, setPage] = useState(0);
   const { status, data } = useQuery({
-    queryKey: ["fetchReviews"],
-    queryFn: fetchReviews,
+    queryKey: ["fetchReviews", page],
+    queryFn: () => {
+      return fetchReviews(page);
+    },
     staleTime: 1000 * 60,
   });
+
+  const handleNextPage = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage((prev) => Math.max(0, prev - 1));
+  };
+
   return (
     <>
       <div className="container mx-auto px-4 py-4 md:py-6">
@@ -60,11 +75,32 @@ export default function ReviewListPage() {
                           className="w-full h-96 rounded-2xl"
                         />
                       ))
-                    : camelcaseKeys(data!).map((review: Review) => (
+                    : data?.data!.map((review: ReviewListDTO) => (
                         <BookCard key={review.id} review={review} />
                       ))}
                 </div>
               </div>
+            </div>
+            <div className="flex justify-center items-center gap-4 mt-8">
+              <button
+                onClick={handlePrevPage}
+                disabled={page === 0}
+                className="px-6 py-3 bg-gradient-to-r from-yellow-800 to-yellow-700 text-white font-semibold rounded-full shadow-lg hover:from-yellow-700 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
+              >
+                Previous
+              </button>
+
+              <span className="px-4 py-2 bg-white/90 text-[#4B3621] font-medium rounded-full shadow-md">
+                Page {page + 1}
+              </span>
+
+              <button
+                onClick={handleNextPage}
+                disabled={data?.data?.length !== 10}
+                className="px-6 py-3 bg-gradient-to-r from-yellow-800 to-yellow-700 text-white font-semibold rounded-full shadow-lg hover:from-yellow-700 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
+              >
+                Next
+              </button>
             </div>
           </>
         )}
