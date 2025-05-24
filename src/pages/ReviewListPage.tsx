@@ -1,74 +1,141 @@
 import { BookCard } from "@/pages/home/BookCard";
 import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
-import camelcaseKeys from "camelcase-keys";
-import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router";
+import { SelectBox } from "@/components/SelectBox";
 
-interface Review {
+export interface ReviewListDTO {
   author: string;
-  coverImage: string;
+  cover_image: string;
   description: string;
-  detailedReview: string;
+  detailed_review: string;
   id: number;
-  publishedDate: string;
+  published_date: string;
   title: string;
 }
 
-const fetchReviews = async () => {
-  const { data: book } = await supabase
+const selectList = [
+  { name: "등록순", value: "published_date" },
+  { name: "제목", value: "title" },
+];
+
+const fetchReviews = async (page = 0, order = "published_date") => {
+  const startIndex = page * 10;
+  const endIndex = startIndex + 9;
+  const data = await supabase
     .from("book")
     .select("*")
-    .order("published_date", { ascending: false });
-
-  return book;
+    .order(order, { ascending: false })
+    .range(startIndex, endIndex);
+  return data;
 };
 
 export default function ReviewListPage() {
-  const { status, data } = useQuery({
-    queryKey: ["fetchReviews"],
-    queryFn: fetchReviews,
-    staleTime: 1000 * 60,
-  });
-  return (
-    <>
-      <div className="container mx-auto px-4 py-4 md:py-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-            transition: { delay: 0.5 },
-          }}
-          className="text-xl md:text-2xl font-bold mb-4 text-center text-[#4B3621] shadow-text"
-        >
-          최근 독후감
-        </motion.div>
-        {status === "error" ? (
-          <div>Error fetching data</div>
-        ) : (
-          <>
-            <div className="bg-gradient-to-r from-yellow-800 to-yellow-700 shadow-lg rounded-3xl p-5 mb-10 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-b from-yellow-900/20 via-transparent to-yellow-900/20 pointer-events-none"></div>
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [order, setOrder] = useState(selectList[0].value);
+  const currentPage = parseInt(searchParams.get("page") || "0");
 
-              <div className="relative z-10">
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                  {status === "pending"
-                    ? Array.from({ length: 5 }, (_, index) => (
-                        <Skeleton
-                          key={index}
-                          className="w-full h-96 rounded-2xl"
-                        />
-                      ))
-                    : camelcaseKeys(data!).map((review: Review) => (
-                        <BookCard key={review.id} review={review} />
-                      ))}
-                </div>
+  const { status, data } = useQuery({
+    queryKey: ["fetchReviews", currentPage, order],
+    queryFn: () => {
+      return fetchReviews(currentPage, order);
+    },
+    staleTime: 1000 * 20,
+  });
+
+  useMemo(() => {
+    console.log(data);
+  }, [data]);
+
+  const handleSelectChange = (value: string) => {
+    setOrder(value);
+    setSearchParams({ page: "0" });
+  };
+
+  const handleNextPage = () => {
+    const nextPage = currentPage + 1;
+    setSearchParams({ page: nextPage.toString() });
+  };
+
+  const handlePrevPage = () => {
+    const prevPage = Math.max(0, currentPage - 1);
+    setSearchParams({ page: prevPage.toString() });
+  };
+
+  return (
+    <div className="container mx-auto px-4 py-4 md:py-6">
+      {/* Header Section with Title and SelectBox */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div className="flex-1">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#4B3621] mb-2">
+            김형정 독후감
+          </h1>
+        </div>
+
+        {/* SelectBox Container */}
+        <div className="flex flex-col items-end gap-2">
+          <label className="text-sm text-gray-500 font-medium">Sort by</label>
+          <div className="min-w-[140px]">
+            <SelectBox value={selectList} onChange={handleSelectChange} />
+          </div>
+        </div>
+      </div>
+
+      {status === "error" ? (
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="text-red-500 text-xl mb-2">⚠️</div>
+            <p className="text-red-600 font-medium">Error fetching data</p>
+            <p className="text-gray-500 text-sm mt-1">Please try again later</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Books Grid */}
+          <div className="bg-gradient-to-r from-yellow-800 to-yellow-700 shadow-lg rounded-3xl p-5 mb-10 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-yellow-900/20 via-transparent to-yellow-900/20 pointer-events-none"></div>
+            <div className="relative z-10">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                {status === "pending"
+                  ? Array.from({ length: 5 }, (_, index) => (
+                      <Skeleton
+                        key={index}
+                        className="w-full h-96 rounded-2xl"
+                      />
+                    ))
+                  : data?.data!.map((review: ReviewListDTO) => (
+                      <BookCard key={review.id} review={review} />
+                    ))}
               </div>
             </div>
-          </>
-        )}
-      </div>
-    </>
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center gap-4 mt-8">
+            <button
+              onClick={handlePrevPage}
+              disabled={currentPage === 0}
+              className="px-6 py-3 bg-gradient-to-r from-yellow-800 to-yellow-700 text-white font-semibold rounded-full shadow-lg hover:from-yellow-700 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
+            >
+              Previous
+            </button>
+
+            <span className="px-4 py-2 bg-white/90 text-[#4B3621] font-medium rounded-full shadow-md">
+              Page {currentPage + 1}
+            </span>
+
+            <button
+              onClick={handleNextPage}
+              disabled={data?.data?.length !== 10}
+              className="px-6 py-3 bg-gradient-to-r from-yellow-800 to-yellow-700 text-white font-semibold rounded-full shadow-lg hover:from-yellow-700 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
