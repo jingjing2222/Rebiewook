@@ -3,7 +3,8 @@ import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router";
 
 export interface ReviewListDTO {
   author: string;
@@ -18,7 +19,6 @@ export interface ReviewListDTO {
 const fetchReviews = async (page = 0) => {
   const startIndex = page * 10;
   const endIndex = startIndex + 9;
-
   const data = await supabase
     .from("book")
     .select("*")
@@ -28,21 +28,29 @@ const fetchReviews = async (page = 0) => {
 };
 
 export default function ReviewListPage() {
-  const [page, setPage] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "0");
+
   const { status, data } = useQuery({
-    queryKey: ["fetchReviews", page],
+    queryKey: ["fetchReviews", currentPage],
     queryFn: () => {
-      return fetchReviews(page);
+      return fetchReviews(currentPage);
     },
     staleTime: 1000 * 60,
   });
 
+  useMemo(() => {
+    console.log(data);
+  }, [data]);
+
   const handleNextPage = () => {
-    setPage((prev) => prev + 1);
+    const nextPage = currentPage + 1;
+    setSearchParams({ page: nextPage.toString() });
   };
 
   const handlePrevPage = () => {
-    setPage((prev) => Math.max(0, prev - 1));
+    const prevPage = Math.max(0, currentPage - 1);
+    setSearchParams({ page: prevPage.toString() });
   };
 
   return (
@@ -65,7 +73,6 @@ export default function ReviewListPage() {
           <>
             <div className="bg-gradient-to-r from-yellow-800 to-yellow-700 shadow-lg rounded-3xl p-5 mb-10 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-yellow-900/20 via-transparent to-yellow-900/20 pointer-events-none"></div>
-
               <div className="relative z-10">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                   {status === "pending"
@@ -81,17 +88,19 @@ export default function ReviewListPage() {
                 </div>
               </div>
             </div>
+
+            {/* Pagination Buttons */}
             <div className="flex justify-center items-center gap-4 mt-8">
               <button
                 onClick={handlePrevPage}
-                disabled={page === 0}
+                disabled={currentPage === 0}
                 className="px-6 py-3 bg-gradient-to-r from-yellow-800 to-yellow-700 text-white font-semibold rounded-full shadow-lg hover:from-yellow-700 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
               >
                 Previous
               </button>
 
               <span className="px-4 py-2 bg-white/90 text-[#4B3621] font-medium rounded-full shadow-md">
-                Page {page + 1}
+                Page {currentPage + 1}
               </span>
 
               <button
