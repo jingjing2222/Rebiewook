@@ -74,15 +74,9 @@ export default function ReviewListPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6">
+    <div className="container mx-auto px-4 py-2">
       {/* Header Section with Title and SelectBox */}
-      <div className="flex justify-between items-start sm:items-center gap-4 mb-8">
-        <div className="flex-1">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#4B3621] mb-2">
-            김형정 독후감
-          </h1>
-        </div>
-
+      <div className="flex justify-end items-start sm:items-center gap-4 mb-6">
         {/* SelectBox Container */}
         <div className="flex flex-col items-end gap-2">
           <label className="text-sm text-gray-500 font-medium">Sort by</label>
