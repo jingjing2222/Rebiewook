@@ -1,10 +1,10 @@
 import { BookCard } from "@/pages/home/BookCard";
-import { supabase } from "@/supabase/Client";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { SelectBox } from "@/components/SelectBox";
+import { getReviews } from "@/api/api";
 
 export interface ReviewListDTO {
   author: string;
@@ -21,18 +21,6 @@ const selectList = [
   { name: "제목", value: "title" },
 ];
 
-const fetchReviews = async (page = 0, order = "published_date") => {
-  const startIndex = page * 10;
-  const endIndex = startIndex + 9;
-
-  const data = await supabase
-    .from("book")
-    .select("*")
-    .order(order, { ascending: true })
-    .range(startIndex, endIndex);
-  return data;
-};
-
 export default function ReviewListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [order, setOrder] = useState(selectList[0].value);
@@ -41,7 +29,7 @@ export default function ReviewListPage() {
   const { status, data } = useQuery({
     queryKey: ["fetchReviews", currentPage, order],
     queryFn: () => {
-      return fetchReviews(currentPage, order);
+      return getReviews(currentPage, order);
     },
     staleTime: 1000 * 20,
   });
@@ -100,7 +88,7 @@ export default function ReviewListPage() {
                         className="w-full h-96 rounded-2xl"
                       />
                     ))
-                  : data?.data!.map((review: ReviewListDTO) => (
+                  : data?.data.map((review: ReviewListDTO) => (
                       <BookCard key={review.id} review={review} />
                     ))}
               </div>
@@ -123,7 +111,7 @@ export default function ReviewListPage() {
 
             <button
               onClick={handleNextPage}
-              disabled={data?.data?.length !== 10}
+              disabled={!data?.pagination.hasNextPage}
               className="px-6 py-3 bg-gradient-to-r from-yellow-800 to-yellow-700 text-white font-semibold rounded-full shadow-lg hover:from-yellow-700 hover:to-yellow-600 disabled:from-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100"
             >
               Next
