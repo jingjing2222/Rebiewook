@@ -25,20 +25,12 @@ const fetchReviews = async (page = 0, order = "published_date") => {
   const startIndex = page * 10;
   const endIndex = startIndex + 9;
 
-  if (order === "title") {
-    const data = await supabase.rpc("get_books_by_title", {
-      page_offset: startIndex,
-      page_limit: 10,
-    });
-    return data;
-  } else {
-    const data = await supabase
-      .from("book")
-      .select("*")
-      .order(order, { ascending: false })
-      .range(startIndex, endIndex);
-    return data;
-  }
+  const data = await supabase
+    .from("book")
+    .select("*")
+    .order(order, { ascending: true })
+    .range(startIndex, endIndex);
+  return data;
 };
 
 export default function ReviewListPage() {
