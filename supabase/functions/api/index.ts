@@ -1,4 +1,3 @@
-// supabase/functions/api/index.ts
 import { Hono } from "jsr:@hono/hono";
 import { cors } from "jsr:@hono/hono/cors";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -14,7 +13,7 @@ const app = new Hono().basePath(`/${functionName}`);
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:5173, https://rebiewook.site"],
+    origin: ["http://localhost:5173", "https://rebiewook.site"],
     allowHeaders: ["Content-Type", "Authorization", "apikey"],
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
   }),
