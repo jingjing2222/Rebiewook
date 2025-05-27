@@ -13,7 +13,11 @@ const app = new Hono().basePath(`/${functionName}`);
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:5173", "https://rebiewook.site"],
+    origin: [
+      "http://localhost:5173",
+      "https://rebiewook.site",
+      "http://192.168.219.104:5173",
+    ],
     allowHeaders: ["Content-Type", "Authorization", "apikey"],
     allowMethods: ["GET", "POST", "PUT", "DELETE"],
   }),
