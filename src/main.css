@@ -3,65 +3,52 @@
 @tailwind utilities;
 
 :root {
-  --background: 30 30% 95%;
-  --foreground: 20 40% 20%;
-  --card: 30 25% 90%;
-  --card-foreground: 20 40% 20%;
-  --popover: 30 25% 90%;
-  --popover-foreground: 20 40% 20%;
-  --primary: 20 60% 40%;
-  --primary-foreground: 30 30% 95%;
-  --secondary: 30 20% 80%;
-  --secondary-foreground: 20 40% 20%;
-  --muted: #27272a;
-  --muted-foreground: 20 30% 30%;
-  --accent: 20 40% 60%;
-  --accent-foreground: 30 30% 95%;
-  --destructive: 0 85% 60%;
-  --destructive-foreground: 30 30% 95%;
-  --border: 20 30% 70%;
-  --input: 20 30% 70%;
-  --ring: 20 60% 40%;
-  --radius: 0.5rem;
-}
-
-body {
-  font-family: "GowunDodum-Regular";
-  @apply bg-background text-foreground;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E"),
-    linear-gradient(to right, #d2b48c, #deb887);
-  background-repeat: repeat;
-  background-size:
-    200px 200px,
-    100% 100%;
-}
-
-.wood-texture {
-  background-image: repeating-linear-gradient(
-      90deg,
-      rgba(139, 69, 19, 0.1),
-      rgba(139, 69, 19, 0.1) 1px,
-      transparent 1px,
-      transparent 20px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(139, 69, 19, 0.1),
-      rgba(139, 69, 19, 0.1) 1px,
-      transparent 1px,
-      transparent 20px
-    ),
-    linear-gradient(45deg, #d2b48c, #deb887);
-}
-
-.book-spine {
-  background: linear-gradient(90deg, #cd853f, #deb887);
-  border-left: 2px solid rgba(139, 69, 19, 0.5);
-  border-right: 2px solid rgba(139, 69, 19, 0.5);
+  --background: 32 56% 96%;
+  --foreground: 24 20% 16%;
+  --card: 0 0% 100%;
+  --card-foreground: 24 20% 16%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 24 20% 16%;
+  --primary: 25 72% 38%;
+  --primary-foreground: 48 100% 98%;
+  --secondary: 33 45% 90%;
+  --secondary-foreground: 24 24% 22%;
+  --muted: 34 35% 90%;
+  --muted-foreground: 24 12% 38%;
+  --accent: 35 68% 78%;
+  --accent-foreground: 24 28% 18%;
+  --destructive: 0 76% 52%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 30 28% 84%;
+  --input: 30 28% 84%;
+  --ring: 25 72% 38%;
+  --radius: 0.85rem;
 }
 
 @font-face {
-  font-family: "GowunDodum-Regular";
-  font-weight: normal;
-  src: url("/src/font/Title_Medium.otf") format("truetype");
+  font-family: "Title-Medium";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./font/Title_Medium.otf") format("opentype");
+}
+
+body {
+  font-family: "Title-Medium", "Pretendard", system-ui, -apple-system, sans-serif;
+  @apply bg-background text-foreground antialiased;
+  background-image:
+    radial-gradient(circle at 8% 8%, rgba(255, 255, 255, 0.7) 0%, transparent 45%),
+    radial-gradient(circle at 92% 12%, rgba(255, 255, 255, 0.55) 0%, transparent 35%),
+    linear-gradient(120deg, #f4e9d8 0%, #f7efe3 45%, #f0dfc4 100%);
+}
+
+.page-shell {
+  @apply mx-auto w-full max-w-7xl px-4 md:px-6;
+}
+
+.panel-surface {
+  @apply rounded-3xl border border-border/80 bg-card/90 shadow-lg backdrop-blur-sm;
+}
+
+.text-brand-gradient {
+  @apply bg-gradient-to-r from-amber-700 via-orange-700 to-yellow-700 bg-clip-text text-transparent;
 }

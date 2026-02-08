@@ -25,7 +25,7 @@ export const SelectBox = ({ value, onChange }: SelectBoxProps) => {
 
   return (
     <Select value={selectedValue} onValueChange={handleSelectChange}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[180px] border-border/70 bg-background/90">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
       <SelectContent>
