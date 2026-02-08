@@ -5,8 +5,6 @@ import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
 import { ModalContext } from "@/components/Modal/ModalContext";
 
-const LOGO_IMAGE_URL = `${import.meta.env.BASE_URL}image.png`;
-
 export default function Header() {
   const [cookies, , removeCookie] = useCookies(["username"]);
   const [isAdmin, setIsAdmin] = useState(cookies.username);
@@ -26,11 +24,9 @@ export default function Header() {
       <div className="page-shell py-4">
         <div className="panel-surface flex items-center justify-between gap-4 px-4 py-3 md:px-6">
           <Link to="/" className="group inline-flex items-center gap-3">
-            <img
-              src={LOGO_IMAGE_URL}
-              alt="Rebiewook"
-              className="h-10 w-10 rounded-xl border border-border/60 object-cover shadow-sm transition-transform duration-300 group-hover:scale-105"
-            />
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border/60 bg-white/80 text-lg shadow-sm transition-transform duration-300 group-hover:scale-105">
+              📚
+            </div>
             <div className="hidden sm:block">
               <h1 className="text-lg font-bold leading-tight text-brand-gradient">Rebiewook</h1>
               <p className="text-xs text-muted-foreground">나는 생각한다, 나는 존재한다</p>

@@ -21,7 +21,7 @@ export const UploadPage = () => {
         mutationFn: (book: DBBook) => insertBook(book),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["fetchReviews"] });
-            navigate("/reviewlistpage");
+            navigate("/");
         },
     });
 

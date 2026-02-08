@@ -39,7 +39,7 @@ export const EditPage = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["fetchReviews"] });
             queryClient.invalidateQueries({ queryKey: ["getBook", id] });
-            navigate("/reviewlistpage");
+            navigate("/");
         },
         onError: () => {
             console.log("실패했습니다!");
