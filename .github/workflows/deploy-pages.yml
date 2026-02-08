@@ -35,6 +35,9 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          VITE_SUPABASE_URL: https://tstnssgozphknyeryvtq.supabase.co
+          VITE_SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzdG5zc2dvenBoa255ZXJ5dnRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzczNDk4MTgsImV4cCI6MjA1MjkyNTgxOH0.ETH7zFCQD-LxiV_9UcyVX4eHgjbv8z3kXgMs1pJ20j0
 
       - name: SPA fallback (404.html)
         run: cp dist/index.html dist/404.html
