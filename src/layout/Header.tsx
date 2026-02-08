@@ -1,88 +1,79 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
+import { BookOpen, LogOut, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCookies } from "react-cookie";
 import { ModalContext } from "@/components/Modal/ModalContext";
 
+const LOGO_IMAGE_URL = `${import.meta.env.BASE_URL}image.png`;
+
 export default function Header() {
   const [cookies, , removeCookie] = useCookies(["username"]);
   const [isAdmin, setIsAdmin] = useState(cookies.username);
-  const [isHovered, setIsHovered] = useState(false);
   const { openModal, setModal } = useContext(ModalContext);
 
   useEffect(() => {
     setIsAdmin(cookies.username);
   }, [cookies.username]);
 
-  const ValidateAdmin = () => {
-    return (
-      <>
-        {isAdmin && (
-          <Link to="/upload">
-            <Button
-              variant="ghost"
-              className="text-white hover:text-[#F4A460] text-sm sm:text-base"
-            >
-              Upload Review
-            </Button>
-          </Link>
-        )}
-        {isAdmin ? (
-          <Button
-            onClick={() => {
-              removeCookie("username", { path: "/" });
-              setIsAdmin(false);
-            }}
-            className="bg-[#D2691E] hover:bg-[#A0522D] text-white text-sm sm:text-base"
-          >
-            Logout
-          </Button>
-        ) : (
-          <div className="flex gap-4">
-            <Button
-              className="bg-[#D2691E] hover:bg-[#A0522D]"
-              onClick={() => {
-                openModal();
-                setModal("login");
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              className="bg-[#D2691E] hover:bg-[#A0522D]"
-              onClick={() => {
-                openModal();
-                setModal("signup");
-              }}
-            >
-              Signup
-            </Button>
-          </div>
-        )}
-      </>
-    );
+  const openAuthModal = (type: "login" | "signup") => {
+    openModal();
+    setModal(type);
   };
 
   return (
-    <header className="bg-[#8B4513] shadow-md wood-texture sticky">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/">
-          <img
-            src="https://i.ibb.co/7Ry0jpw/001-2.png"
-            alt="My Personal Book Report"
-            className={`opacity-100 cursor-pointer rounded transition-all w-28 h-auto md:w-40 md:h-auto${
-              isHovered ? "opacity-80" : ""
-            }`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          />
-        </Link>
-        <div className="text-sm md:text-2xl sm:text-lg hidden sm:block">
-          나는 생각한다, 나는 존재한다
+    <header className="sticky top-0 z-20 border-b border-border/70 bg-background/75 backdrop-blur-lg">
+      <div className="page-shell py-4">
+        <div className="panel-surface flex items-center justify-between gap-4 px-4 py-3 md:px-6">
+          <Link to="/" className="group inline-flex items-center gap-3">
+            <img
+              src={LOGO_IMAGE_URL}
+              alt="Rebiewook"
+              className="h-10 w-10 rounded-xl border border-border/60 object-cover shadow-sm transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="hidden sm:block">
+              <h1 className="text-lg font-bold leading-tight text-brand-gradient">Rebiewook</h1>
+              <p className="text-xs text-muted-foreground">나는 생각한다, 나는 존재한다</p>
+            </div>
+          </Link>
+
+          <nav className="flex items-center gap-2 md:gap-3">
+            <Link to="/" className="hidden sm:block">
+              <Button variant="ghost" className="text-foreground/90">
+                <BookOpen className="mr-1 h-4 w-4" />
+                리뷰 목록
+              </Button>
+            </Link>
+
+            {isAdmin && (
+              <Link to="/upload">
+                <Button variant="secondary" className="border border-border/70">
+                  <PlusCircle className="mr-1 h-4 w-4" />
+                  Upload Review
+                </Button>
+              </Link>
+            )}
+
+            {isAdmin ? (
+              <Button
+                onClick={() => {
+                  removeCookie("username", { path: "/" });
+                  setIsAdmin(false);
+                }}
+              >
+                <LogOut className="mr-1 h-4 w-4" />
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Button variant="outline" onClick={() => openAuthModal("login")}>
+                  Login
+                </Button>
+                <Button onClick={() => openAuthModal("signup")}>Signup</Button>
+              </>
+            )}
+          </nav>
         </div>
-        <nav className="flex flex-col sm:flex-row items-center space-x-4">
-          {<ValidateAdmin />}
-        </nav>
       </div>
     </header>
   );
