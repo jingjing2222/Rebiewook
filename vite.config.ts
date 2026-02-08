@@ -7,6 +7,7 @@ import path from "path";
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   root: ".",
+  base: "/Rebiewook/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
