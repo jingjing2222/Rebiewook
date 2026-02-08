@@ -20,6 +20,9 @@ const router = createBrowserRouter(
       <Route path="bookdetailes/:id/edit" element={<EditPage />} />
     </Route>,
   ),
+  {
+    basename: "/Rebiewook",
+  },
 );
 
 export default function Router() {
